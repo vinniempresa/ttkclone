@@ -16,10 +16,10 @@ export function CartModal() {
   const modalRef = useRef<HTMLDivElement>(null);
   const prevItemsCount = useRef(0);
   const totalItems = getTotalItems();
-  const remaining = 6 - totalItems;
+  const remaining = 3 - totalItems;
 
   useEffect(() => {
-    if (totalItems === 6 && prevItemsCount.current < 6 && modalRef.current) {
+    if (totalItems === 3 && prevItemsCount.current < 3 && modalRef.current) {
       modalRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
     prevItemsCount.current = totalItems;
@@ -107,7 +107,7 @@ export function CartModal() {
           >
             <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between z-10">
               <h2 className="text-sm font-bold text-black">
-                Sua Sacola <span className="text-gray-500 font-semibold">({totalItems}/6)</span>
+                Sua Sacola <span className="text-gray-500 font-semibold">({totalItems}/3)</span>
               </h2>
               <button
                 onClick={closeCart}
