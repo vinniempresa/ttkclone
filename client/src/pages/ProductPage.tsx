@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useRoute, Link } from 'wouter';
+import { useRoute, Link, useLocation } from 'wouter';
 import { ArrowLeft } from 'lucide-react';
 import { MobileHeader } from '@/components/MobileHeader';
 import { ProductImageGallery } from '@/components/ProductImageGallery';
@@ -16,6 +16,7 @@ export default function ProductPage() {
   const productId = params?.id;
   const { t } = useTranslation();
   const { addItem } = useCart();
+  const [, setLocation] = useLocation();
   
   const { data: product, isLoading, error } = useQuery<Product>({
     queryKey: ['/api/products', productId],
@@ -91,7 +92,7 @@ export default function ProductPage() {
       <main className="pb-[68px]">
         <div className="px-4 py-2.5 bg-white">
           <button
-            onClick={() => window.history.back()}
+            onClick={() => setLocation('/')}
             className="flex items-center gap-1.5 text-[13px] text-gray-600 font-medium"
             data-testid="button-back"
           >

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useCart } from '@/contexts/CartContext';
-import { ChevronDown, ChevronUp, Trash2, Package } from 'lucide-react';
+import { ChevronDown, ChevronUp, Trash2, Package, ArrowLeft } from 'lucide-react';
 import tiktokLogo from '@assets/logo-tiktok-CfBkyC_V_(1)_1771528904425.png';
 
 const ESTADOS_BR = [
@@ -154,8 +154,17 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex flex-col max-w-[430px] mx-auto">
       {/* Sticky black header with logo */}
-      <header className="sticky top-0 z-50 bg-black py-3 flex items-center justify-center" data-testid="header-checkout">
-        <img src={tiktokLogo} alt="TikTok Shop" className="h-5" data-testid="logo-checkout" />
+      <header className="sticky top-0 z-50 bg-black py-3 flex items-center px-4 gap-3" data-testid="header-checkout">
+        <button
+          onClick={() => setLocation('/')}
+          className="text-white"
+          data-testid="button-back-checkout"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
+        <div className="flex-1 flex justify-center pr-8">
+          <img src={tiktokLogo} alt="TikTok Shop" className="h-5" data-testid="logo-checkout" />
+        </div>
       </header>
 
       {/* Order Summary */}
