@@ -126,7 +126,7 @@ export function CartModal() {
                     Sua sacola está vazia
                   </p>
                   <p className="text-sm text-gray-500 mb-4">
-                    Escolha até 6 amostras grátis!
+                    Escolha até 3 amostras grátis!
                   </p>
                 </div>
               ) : (
@@ -137,8 +137,8 @@ export function CartModal() {
                   >
                     <p className="text-sm font-semibold text-[#E10742]">
                       {remaining > 0 
-                        ? `Você selecionou ${totalItems} de 6 amostras · falta${remaining === 1 ? '' : 'm'} ${remaining}`
-                        : 'Você selecionou todas as 6 amostras!'
+                        ? `Você selecionou ${totalItems} de 3 amostras · falta${remaining === 1 ? '' : 'm'} ${remaining}`
+                        : 'Você selecionou todas as 3 amostras!'
                       }
                     </p>
                   </div>

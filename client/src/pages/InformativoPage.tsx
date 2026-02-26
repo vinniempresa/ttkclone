@@ -264,7 +264,7 @@ function RegistrationModal({ open, onClose }: { open: boolean; onClose: () => vo
                 Você foi <span className="text-[#FF2A52] font-bold">aprovado</span> no programa de amostras grátis do TikTok Shop!
               </p>
               <p className="text-[16px] font-bold text-black mb-6">
-                Foram liberadas <span className="text-[#FF2A52]">até 6 amostras grátis</span> para você escolher
+                Foram liberadas <span className="text-[#FF2A52]">até 3 amostras grátis</span> para você escolher
               </p>
               <div className="bg-[#F7F8FA] rounded-md p-4 mb-6 text-left">
                 <p className="text-[13px] text-gray-600 leading-snug">

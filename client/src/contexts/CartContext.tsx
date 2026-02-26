@@ -11,7 +11,7 @@ export interface CartItem {
   quantity: number;
 }
 
-const MAX_SAMPLES = 6;
+const MAX_SAMPLES = 3;
 
 interface CartContextType {
   items: CartItem[];

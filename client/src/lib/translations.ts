@@ -109,7 +109,7 @@ export interface Translations {
 
 export const translations: Record<LanguageCode, Translations> = {
   pt: {
-    promoBanner: "Escolha até 6 produtos totalmente GRÁTIS! Aproveite suas amostras",
+    promoBanner: "Escolha até 3 produtos totalmente GRÁTIS! Aproveite suas amostras",
     searchPlaceholder: "Buscar",
     askQuestion: "Fazer uma pergunta",
     loves: "curtidas",

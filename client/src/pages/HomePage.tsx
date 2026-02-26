@@ -133,7 +133,7 @@ function HeroBanner() {
         <p className="text-black text-[15px] leading-snug font-semibold">
           {userName ? (
             <>
-              Prezado(a) <span className="font-bold text-[#FF2A52]">{userName}</span>, informamos que por se tratar do seu primeiro pedido de amostras grátis, foram liberados <span className="font-bold text-[#FF2A52]">até 6 produtos</span> para você escolher. Ao realizar os vídeos de acordo com as diretrizes estabelecidas, serão liberadas <span className="font-bold text-[#FF2A52]">10 amostras grátis</span> na próxima semana.
+              Prezado(a) <span className="font-bold text-[#FF2A52]">{userName}</span>, informamos que por se tratar do seu primeiro pedido de amostras grátis, foram liberados <span className="font-bold text-[#FF2A52]">até 3 produtos</span> para você escolher. Ao realizar os vídeos de acordo com as diretrizes estabelecidas, serão liberadas <span className="font-bold text-[#FF2A52]">10 amostras grátis</span> na próxima semana.
             </>
           ) : (
             <>

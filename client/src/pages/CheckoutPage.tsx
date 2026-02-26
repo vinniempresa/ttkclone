@@ -135,7 +135,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 text-center">
         <Package className="w-12 h-12 text-gray-300 mb-3" />
         <h1 className="text-lg font-bold text-black mb-2">Sua sacola está vazia</h1>
-        <p className="text-sm text-gray-500 mb-6">Adicione até 6 amostras grátis para continuar.</p>
+        <p className="text-sm text-gray-500 mb-6">Adicione até 3 amostras grátis para continuar.</p>
         <button
           onClick={() => setLocation('/')}
           className="bg-[#FF2A52] text-white font-semibold text-sm px-8 py-3"

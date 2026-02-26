@@ -10,7 +10,7 @@ interface BottomNavigationProps {
 export function BottomNavigation({ onAddToBag, productImage, productName }: BottomNavigationProps) {
   const { getTotalItems, canAddMore } = useCart();
   const totalItems = getTotalItems();
-  const remaining = 6 - totalItems;
+  const remaining = 3 - totalItems;
 
   const handleAddToBag = () => {
     if (onAddToBag && canAddMore()) {
@@ -59,7 +59,7 @@ export function BottomNavigation({ onAddToBag, productImage, productName }: Bott
                 Adicionar à Sacola
               </span>
               <span className="text-[10px] text-white/80 whitespace-nowrap">
-                {totalItems} de 6 selecionados · falta{remaining === 1 ? '' : 'm'} {remaining}
+                {totalItems} de 3 selecionados · falta{remaining === 1 ? '' : 'm'} {remaining}
               </span>
             </div>
           </button>
