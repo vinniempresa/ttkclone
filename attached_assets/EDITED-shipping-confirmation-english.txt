@@ -1,0 +1,25 @@
+{% if fulfillment.item_count == item_count %} {% capture email_title %}Your order is on the way{% endcapture %} {% capture email_body %}Your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% elsif fulfillment.item_count > 1 %} {% if fulfillment_status == 'fulfilled' %} {% capture email_title %}The last items in your order are on the way{% endcapture %} {% capture email_body %}The last items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %} {% else %} {% capture email_title %}Some items in your order are on the way{% endcapture %} {% capture email_body %}Some items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %} {% endif %} {% else %} {% if fulfillment_status == 'fulfilled' %} {% capture email_title %}The last item in your order is on the way{% endcapture %} {% capture email_body %}The last item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% else %} {% capture email_title %}One item in your order is on the way{% endcapture %} {% capture email_body %}One item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% endif %} {% endif %} {% capture email_emphasis %}Estimated delivery date: {{fulfillment.estimated_delivery_at | date: format: 'date'}}{% endcapture %}
+
+{%- if shop.email_logo_url %}  {%- else %}
+{{ shop.name }}
+{%- endif %}    {%- if po_number %} {%- endif %}
+Order {{ order_name }}
+PO number #{{ po_number }}
+{{ email_title }}
+
+{{ email_body }}
+
+{% if fulfillment.estimated_delivery_at %}
+
+{{ email_emphasis }}
+
+{% endif %} {% if fulfillment.tracking_numbers.size > 0 %}
+
+
+{% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and fulfillment.tracking_url %} {{ fulfillment.tracking_company }} tracking number: {{ fulfillment.tracking_numbers.first }} {% elsif fulfillment.tracking_numbers.size == 1 %} Tracking number: {{ fulfillment.tracking_numbers.first }} {% else %} {{ fulfillment.tracking_company }} tracking numbers:
+{% for tracking_number in fulfillment.tracking_numbers %} {% if fulfillment.tracking_urls[forloop.index0] %} {{ tracking_number }} {% else %} {{ tracking_number }} {% endif %}
+{% endfor %} {% endif %}
+
+{% endif %}
+
+If you have any questions, reply to this email or contact us at {{ shop.email }}

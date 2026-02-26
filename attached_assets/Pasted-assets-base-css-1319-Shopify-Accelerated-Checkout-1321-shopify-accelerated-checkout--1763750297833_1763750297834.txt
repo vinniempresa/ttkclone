@@ -1,0 +1,582 @@
+assets/base.css:
+  1319: /* Shopify Accelerated Checkout */
+  1321: shopify-accelerated-checkout {
+  1322:   --shopify-accelerated-checkout-button-border-radius: var(--buttons-radius-outset);
+  1323:   --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
+  1326: shopify-accelerated-checkout-cart {
+  1327:   --shopify-accelerated-checkout-button-border-radius: var(--buttons-radius-outset);
+  1328:   --shopify-accelerated-checkout-button-box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius)
+
+assets/component-cart-drawer.css:
+  333: .cart-drawer .cart__checkout-button {
+  337: .drawer__footer .cart__dynamic-checkout-buttons {
+  341: .drawer__footer #dynamic-checkout-cart ul {
+  352: .drawer__footer #dynamic-checkout-cart ul > li {
+  357: .drawer__footer #dynamic-checkout-cart ul > li:only-child {
+  363:   .drawer__footer #dynamic-checkout-cart ul > li {
+  368:   .drawer__footer #dynamic-checkout-cart ul > li:first-child:nth-last-child(2),
+  369:   .drawer__footer #dynamic-checkout-cart ul > li:first-child:nth-last-child(2) ~ li,
+  370:   .drawer__footer #dynamic-checkout-cart ul > li:first-child:nth-last-child(4),
+  371:   .drawer__footer #dynamic-checkout-cart ul > li:first-child:nth-last-child(4) ~ li {
+
+assets/component-cart.css:
+  166: .cart__dynamic-checkout-buttons {
+  171: .cart__dynamic-checkout-buttons:has(.dynamic-checkout__content:empty) {
+  191: .cart__checkout-button {
+
+assets/section-main-product.css:
+  92: /* Dynamic checkout */
+
+locales/bg.json:
+  291:       "checkout": "Преминаване към плащане",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "С включено мито и данъци. Отстъпките и <a href=\"{{ link }}\">доставката</a> се изчисляват при плащане.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "С включено мито и данъци. Отстъпките и доставката се изчисляват при плащане.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "С включени данъци. Отстъпките и <a href=\"{{ link }}\">доставката</a> се изчисляват при плащане.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "С включени данъци. Отстъпките и доставката се изчисляват при плащане.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "С включено мито. Данъците, отстъпките и <a href=\"{{ link }}\">доставката</a> се изчисляват при плащане.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "С включено мито. Данъците, отстъпките и доставката се изчисляват при плащане.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Данъците, отстъпките и <a href=\"{{ link }}\">доставката</a> се изчисляват при плащане.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Данъците, отстъпките и доставката се изчисляват при плащане."
+
+locales/cs.json:
+  312:       "checkout": "Pokladna",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Včetně cla a daní. Slevy a <a href=\"{{ link }}\">poštovné</a> se vypočítají na pokladně.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Včetně cla a daní. Slevy a poštovné se vypočítají na pokladně.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Včetně daní. Slevy a <a href=\"{{ link }}\">poštovné</a> se vypočítají na pokladně.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Včetně daní. Slevy a poštovné se vypočítají na pokladně.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Včetně cla. Daně, slevy a <a href=\"{{ link }}\">poštovné</a> se vypočítají na pokladně.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Včetně cla. Daně, slevy a poštovné se vypočítají na pokladně.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Daně, slevy a <a href=\"{{ link }}\">poštovné</a> se vypočítají na pokladně.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Daně, slevy a poštovné se vypočítají na pokladně."
+
+locales/cs.schema.json:
+  1674:             "show_dynamic_checkout": {
+  1676:               "info": "Zákazníci uvidí preferovanou možnost platby. [Zjistit více](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Zákazníci uvidí preferovanou možnost platby. [Zjistit více](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/da.json:
+  292:       "checkout": "Gå til betaling",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Inklusive told og skatter. Rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Inklusive told og skatter. Rabatter og levering beregnes ved betaling.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Inklusive skatter. Rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Inklusive skatter. Rabatter og levering beregnes ved betaling.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Inklusive told. Skatter, rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inklusive told. Skatter, rabatter og levering beregnes ved betaling.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Skatter, rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Skatter, rabatter og levering beregnes ved betaling."
+
+locales/da.schema.json:
+  1674:             "show_dynamic_checkout": {
+  1676:               "info": "Kunderne vil se deres foretrukne betalingsmetode. [Få mere at vide](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Kunderne vil se deres foretrukne betalingsmetode. [Få mere at vide](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/de.json:
+  169:       "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird beim Checkout berechnet",
+  292:       "checkout": "Auschecken",
+  306:         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Logge dich ein</a>, damit es beim Checkout schneller geht."
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Inkl. Zollgebühren und Steuern. Rabatte und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Inkl. Zollgebühren und Steuern. Rabatte und Versand werden beim Checkout berechnet.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Inkl. Steuern. Rabatte und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Inkl. Steuern. Rabatte und Versand werden beim Checkout berechnet.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Inkl. Zollgebühren. Steuern, Rabatte und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inkl. Zollgebühren. Steuern, Rabatte und Versand werden beim Checkout berechnet.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Steuern, Rabatte und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Steuern, Rabatte und Versand werden beim Checkout berechnet."
+
+locales/de.schema.json:
+   112:         "paragraph": "Warenkorb- und Checkout-Preise zeigen immer Währungscodes an"
+  1440:           "name": "Checkout-Schaltfläche"
+  1673:             "show_dynamic_checkout": {
+  1674:               "label": "Dynamische Checkout-Buttons",
+  1675:               "info": "Kunden wird die bevorzugte Zahlungsmethode angezeigt. [Mehr Informationen](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2558:               "label": "Dynamische Checkout-Buttons",
+  2559:               "info": "Kunden wird die bevorzugte Zahlungsmethode angezeigt. [Mehr Informationen](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/el.json:
+  292:       "checkout": "Ολοκλήρωση αγοράς",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Οι δασμοί και οι φόροι συμπεριλαμβάνονται. Οι εκπτώσεις και τα έξοδα <a href=\"{{ link }}\">αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Οι δασμοί και οι φόροι συμπεριλαμβάνονται. Οι εκπτώσεις και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της αγοράς",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Οι φόροι συμπεριλαμβάνονται. Οι εκπτώσεις και τα έξοδα <a href=\"{{ link }}\">αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Οι φόροι συμπεριλαμβάνονται. Οι εκπτώσεις και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Οι δασμοί συμπεριλαμβάνονται. Οι φόροι, οι εκπτώσεις και τα έξοδα <a href=\"{{ link }}\">αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Οι δασμοί συμπεριλαμβάνονται. Οι φόροι, οι εκπτώσεις και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Οι φόροι, οι εκπτώσεις και τα έξοδα <a href=\"{{ link }}\">αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Οι φόροι, οι εκπτώσεις και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της αγοράς."
+
+locales/en.default.json:
+  192:       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout."
+  311:       "checkout": "Check out",
+  315:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+  316:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Duties and taxes included. Discounts and shipping calculated at checkout.",
+  317:       "taxes_included_shipping_at_checkout_with_policy_html": "Taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+  318:       "taxes_included_shipping_at_checkout_without_policy": "Taxes included. Discounts and shipping calculated at checkout.",
+  319:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Duties included. Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+  320:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Duties included. Taxes, discounts and shipping calculated at checkout.",
+  321:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+  322:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, discounts and shipping calculated at checkout.",
+  552:     "checkout": {
+  721:           "many": "One or more items you added aren't shipping to your location. Remove them to checkout or contact the store."
+
+locales/en.default.schema.json:
+   315:         "paragraph": "Cart and checkout prices always show currency codes",
+   909:             "show_dynamic_checkout": {
+   910:               "label": "Dynamic checkout buttons",
+   911:               "info": "Customers will see their preferred payment option. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  1753:           "name": "Checkout button"
+  2019:             "show_dynamic_checkout": {
+  2020:               "label": "Dynamic checkout buttons",
+  2021:               "info": "Customers will see their preferred payment option. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/es.json:
+  302:       "checkout": "Pagar pedido",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Aranceles e impuestos incluidos. Descuentos y <a href=\"{{ link }}\">envío</a> calculados en la pantalla de pago.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Aranceles e impuestos incluidos. Descuentos y envío calculados en la pantalla de pago.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Impuestos incluidos. Descuentos y <a href=\"{{ link }}\">envío</a> calculados en la pantalla de pago.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Impuestos incluidos. Descuentos y envío calculados en la pantalla de pago.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Aranceles incluidos. Impuestos, descuentos y <a href=\"{{ link }}\">envío</a> calculados en la pantalla de pago.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Aranceles incluidos. Impuestos, descuentos y envío calculados en la pantalla de pago.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Impuestos, descuentos y <a href=\"{{ link }}\">envío</a> calculados en la pantalla de pago.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Impuestos, descuentos y envío calculados en la pantalla de pago."
+
+locales/es.schema.json:
+  1674:             "show_dynamic_checkout": {
+  1676:               "info": "Los clientes verán su opción de pago preferida. [Más información](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Los clientes verán su opción de pago preferida. [Más información](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/fi.json:
+  292:       "checkout": "Kassa",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Sisältää tullit ja verot. Alennukset ja <a href=\"{{ link }}\">toimituskulut</a> lasketaan kassalla.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Sisältää tullit ja verot. Alennukset ja toimituskulut lasketaan kassalla.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Sisältää verot. Alennukset ja <a href=\"{{ link }}\">toimituskulut</a> lasketaan kassalla.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Sisältää verot. Alennukset ja toimituskulut lasketaan kassalla.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Sisältää tullit. Verot, alennukset ja <a href=\"{{ link }}\">toimituskulut</a> lasketaan kassalla.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Sisältää tullit. Verot, alennukset ja toimituskulut lasketaan kassalla.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Verot, alennukset ja <a href=\"{{ link }}\">toimituskulut</a> lasketaan kassalla.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Verot, alennukset ja toimituskulut lasketaan kassalla."
+
+locales/fi.schema.json:
+  1673:             "show_dynamic_checkout": {
+  1675:               "info": "Asiakkaat näkevät ensisijaisen maksutapansa. [Lue lisää:](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Asiakkaat näkevät ensisijaisen maksutapansa. [Lue lisää:](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/fr.json:
+  302:       "checkout": "Procéder au paiement",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Frais de douane et taxes inclus. Réductions et <a href=\"{{ link }}\">frais d’expédition</a> calculés à l’étape du paiement.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Frais de douane et taxes inclus. Réductions et frais d’expédition calculés à l’étape du paiement.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Taxes incluses. Réductions et <a href=\"{{ link }}\">frais d’expédition</a> calculés à l’étape du paiement.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Taxes incluses. Réductions et frais d’expédition calculés à l’étape du paiement.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Frais de douane inclus. Taxes, réductions et <a href=\"{{ link }}\">frais d’expédition</a> calculés à l’étape du paiement.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Frais de douane inclus. Taxes, réductions et frais d’expédition calculés à l’étape du paiement.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxes, réductions et <a href=\"{{ link }}\">frais d’expédition</a> calculés à l’étape du paiement.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, réductions et frais d’expédition calculés à l’étape du paiement."
+
+locales/fr.schema.json:
+  1673:             "show_dynamic_checkout": {
+  1675:               "info": "Les clients verront leur option de paiement préférée. [En savoir plus](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Les clients verront leur option de paiement préférée. [En savoir plus](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/hr.json:
+  302:       "checkout": "Završi kupnju",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Carina i porezi su uključeni. Popusti i <a href=\"{{ link }}\">poštarina</a> obračunavaju se prilikom plaćanja.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Carina i porezi su uključeni. Popusti i poštarina obračunavaju se prilikom plaćanja.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Porezi su uključeni. Popusti i <a href=\"{{ link }}\">poštarina</a> obračunavaju se prilikom plaćanja.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Porezi su uključeni. Popusti i poštarina obračunavaju se prilikom plaćanja.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Carina je uključena. Porezi, popusti i <a href=\"{{ link }}\">poštarina</a> obračunavaju se prilikom plaćanja.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Carina je uključena. Porezi, popusti i poštarina obračunavaju se prilikom plaćanja.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Porezi, popusti i <a href=\"{{ link }}\">poštarina</a> obračunavaju se prilikom plaćanja.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Porezi, popusti i poštarina obračunavaju se prilikom plaćanja."
+
+locales/hu.json:
+  292:       "checkout": "Megrendelés",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Tartalmazza a vámokat és az adókat. A kedvezményeket és a <a href=\"{{ link }}\">szállítási költséget</a> a megrendeléskor számítjuk ki.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Tartalmazza a vámokat és az adókat. A kedvezményeket és a szállítási költséget a megrendeléskor számítjuk ki.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Tartalmazza az adókat. A kedvezményeket és a <a href=\"{{ link }}\">szállítási költséget</a> a megrendeléskor számítjuk ki.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Tartalmazza az adókat. A kedvezményeket és a szállítási költséget a megrendeléskor számítjuk ki.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Tartalmazza a vámokat. Az adókat, a kedvezményeket és a <a href=\"{{ link }}\">szállítási költséget</a> a megrendeléskor számítjuk ki.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Tartalmazza a vámokat. Az adókat, a kedvezményeket és a szállítási költséget a megrendeléskor számítjuk ki",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Az adókat, a kedvezményeket és a <a href=\"{{ link }}\">szállítási költséget</a> a megrendeléskor számítjuk ki.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Az adókat, a kedvezményeket és a szállítási költséget a megrendeléskor számítjuk ki"
+
+locales/id.json:
+  170:       "shipping_policy_html": "<a href=\"{{ link }}\">Biaya pengiriman</a> dihitung saat checkout.",
+  292:       "checkout": "Check out",
+  306:         "paragraph_html": "<a href=\"{{ link }}\" class=\"link underlined-link\">Login</a> untuk checkout lebih cepat."
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Termasuk bea cukai dan pajak. Diskon dan <a href=\"{{ link }}\">biaya pengiriman</a> dihitung saat checkout.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Termasuk bea cukai dan pajak. Diskon dan biaya pengiriman dihitung saat checkout.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Termasuk pajak. Diskon dan <a href=\"{{ link }}\">biaya pengiriman</a> dihitung saat checkout.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Termasuk pajak. Diskon dan biaya pengiriman dihitung saat checkout.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Termasuk bea cukai. Pajak, diskon, dan <a href=\"{{ link }}\">biaya pengiriman</a> dihitung saat checkout.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Termasuk bea cukai. Pajak, diskon, dan biaya pengiriman dihitung saat checkout.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Pajak, diskon, dan <a href=\"{{ link }}\">biaya pengiriman</a> dihitung saat checkout.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Pajak, diskon, dan biaya pengiriman dihitung saat checkout."
+
+locales/it.json:
+  302:       "checkout": "Check-out",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Dazi e imposte inclusi. Sconti e <a href=\"{{ link }}\">spedizione</a> calcolati al check-out.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Dazi e imposte inclusi. Sconti e spedizione calcolati al check-out.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Imposte incluse. Sconti e <a href=\"{{ link }}\">spedizione</a> calcolati al check-out.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Imposte incluse. Sconti e spedizione calcolati al check-out.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Dazi inclusi. Imposte, sconti e <a href=\"{{ link }}\">spedizione</a> calcolati al check-out.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Dazi inclusi. Imposte, sconti e spedizione calcolati al check-out.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Imposte, sconti e <a href=\"{{ link }}\">spedizione</a> calcolati al check-out.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Imposte, sconti e spedizione calcolati al check-out."
+
+locales/it.schema.json:
+  1674:             "show_dynamic_checkout": {
+  1676:               "info": "I clienti vedranno la loro opzione di pagamento preferita. [Maggiori informazioni](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "I clienti vedranno la loro opzione di pagamento preferita. [Maggiori informazioni](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/ja.json:
+  292:       "checkout": "購入手続きに進む",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "関税と税金が含まれます。ディスカウントと<a href=\"{{ link }}\">配送料</a>はチェックアウト時に計算されます。",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "関税と税金が含まれます。ディスカウントと配送料はチェックアウト時に計算されます。",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "税込。ディスカウントと<a href=\"{{ link }}\">配送料</a>はチェックアウト時に計算されます。",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "税込。ディスカウントと配送料はチェックアウト時に計算されます。",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "関税込。税、ディスカウント、および<a href=\"{{ link }}\">配送料</a>はチェックアウト時に計算されます。",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "関税込。税、ディスカウント、および配送料はチェックアウト時に計算されます。",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "税、ディスカウント、および<a href=\"{{ link }}\">配送料</a>はチェックアウト時に計算されます。",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "税、ディスカウント、および配送料はチェックアウト時に計算されます。"
+
+locales/ja.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "お客様には希望する支払いオプションが表示されます。[詳しくはこちら](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "お客様には希望する支払いオプションが表示されます。[詳しくはこちら](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/ko.json:
+  292:       "checkout": "결제",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "관세 및 세금이 포함된 가격입니다. 결제 시 할인 및 <a href=\"{{ link }}\">배송료</a>가 계산됩니다.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "관세 및 세금이 포함된 가격입니다. 결제 시 할인 및 배송료가 계산됩니다.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "세금이 포함된 가격입니다. 결제 시 할인 및 <a href=\"{{ link }}\">배송료</a>가 계산됩니다.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "세금이 포함된 가격입니다. 결제 시 할인 및 배송료가 계산됩니다.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "관세가 포함된 가격입니다. 결제 시 세금, 할인 및 <a href=\"{{ link }}\">배송료</a>가 계산됩니다.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "관세가 포함된 가격입니다. 결제 시 세금, 할인 및 배송료가 계산됩니다.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "결제 시 세금, 할인 및 <a href=\"{{ link }}\">배송료</a>가 계산됩니다.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "결제 시 세금, 할인 및 배송료가 계산됩니다."
+
+locales/ko.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "고객은 자신이 선호하는 결제 옵션을 볼 수 있습니다. [자세히 알아보기](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "고객은 자신이 선호하는 결제 옵션을 볼 수 있습니다. [자세히 알아보기](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/lt.json:
+  312:       "checkout": "Atsiskaityti",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Muito ir kiti mokesčiai įtraukti. Nuolaidos ir <a href=\"{{ link }}\">siuntimo išlaidos</a> apskaičiuojamos atsiskaitant.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Muito ir kiti mokesčiai įtraukti. Nuolaidos ir siuntimo išlaidos apskaičiuojamos atsiskaitant.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Mokesčiai įtraukti. Nuolaidos ir <a href=\"{{ link }}\">siuntimo išlaidos</a> apskaičiuojamos atsiskaitant.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Mokesčiai įtraukti. Nuolaidos ir siuntimo išlaidos apskaičiuojamos atsiskaitant.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Muito mokesčiai įtraukti. Mokesčiai, nuolaidos ir <a href=\"{{ link }}\">siuntimo išlaidos</a> apskaičiuojamos atsiskaitant.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Muito mokesčiai įtraukti. Mokesčiai, nuolaidos ir siuntimo išlaidos apskaičiuojamos atsiskaitant.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Mokesčiai, nuolaidos ir <a href=\"{{ link }}\">siuntimo išlaidos</a> apskaičiuojamos atsiskaitant.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Mokesčiai, nuolaidos ir siuntimo išlaidos apskaičiuojamos atsiskaitant."
+
+locales/nb.json:
+  292:       "checkout": "Kasse",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Inkludert tollplikter og avgifter. Rabatter og <a href=\"{{ link }}\">frakt</a> beregnes i kassen.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Inkludert tollplikter og avgifter. Rabatter og frakt beregnes i kassen.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Inkludert avgifter. Rabatter og <a href=\"{{ link }}\">frakt</a> beregnes i kassen.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Inkludert avgifter. Rabatter og frakt beregnes i kassen.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Inkluder tollplikter. Avgifter, rabatter og <a href=\"{{ link }}\">frakt</a> beregnes i kassen.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Inkluder tollplikter. Avgifter, rabatter og frakt beregnes i kassen.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Avgifter, rabatter og <a href=\"{{ link }}\">frakt</a> beregnes i kassen.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Avgifter, rabatter og frakt beregnes i kassen."
+
+locales/nb.schema.json:
+  1673:             "show_dynamic_checkout": {
+  1675:               "info": "Kunder får se sitt foretrukne betalingsalternativ. [Finn ut mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Kunder får se sitt foretrukne betalingsalternativ. [Finn ut mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/nl.json:
+  169:       "shipping_policy_html": "<a href=\"{{ link }}\">Verzendkosten</a> worden berekend bij de checkout.",
+  292:       "checkout": "Afrekenen",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Douanerechten en belastingen inbegrepen. Kortingen en <a href=\"{{ link }}\">verzending</a> worden bij de checkout berekend.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Douanerechten en belastingen inbegrepen. Kortingen en verzending worden bij de checkout berekend.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Belastingen inbegrepen. Kortingen en <a href=\"{{ link }}\">verzending</a> worden bij de checkout berekend.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Belastingen inbegrepen. Kortingen en verzending worden bij de checkout berekend.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Douanerechten inbegrepen. Belastingen, kortingen en <a href=\"{{ link }}\">verzending</a> worden bij de checkout berekend.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Douanerechten inbegrepen. Belastingen, kortingen en verzending worden bij de checkout berekend.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Belastingen, kortingen en <a href=\"{{ link }}\">verzending</a> worden bij de checkout berekend.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Belastingen, kortingen en verzending worden bij de checkout berekend."
+
+locales/nl.schema.json:
+   112:         "paragraph": "Prijzen in winkelwagen en bij checkout tonen altijd de valutacodes"
+  1440:           "name": "Checkoutknop"
+  1674:             "show_dynamic_checkout": {
+  1675:               "label": "Dynamische checkoutknoppen",
+  1676:               "info": "Klanten zien de betaalmethode van hun voorkeur. [Meer informatie](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2558:               "label": "Dynamische checkoutknoppen",
+  2559:               "info": "Klanten zien de betaalmethode van hun voorkeur. [Meer informatie](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/pl.json:
+  312:       "checkout": "Realizuj zakup",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Z wliczonymi cłami i podatkami. Obliczenie rabatów i <a href=\"{{ link }}\">wysyłki</a> przy realizacji zakupu.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Z wliczonymi cłami i podatkami. Obliczenie rabatów i wysyłki przy realizacji zakupu.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Z wliczonymi podatkami. Obliczenie rabatów i <a href=\"{{ link }}\">wysyłki</a> przy realizacji zakupu.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Z wliczonymi podatkami. Obliczenie rabatów i wysyłki przy realizacji zakupu.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Z wliczonymi cłami. Obliczenie podatków, rabatów i <a href=\"{{ link }}\">wysyłki</a> przy realizacji zakupu.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Z wliczonymi cłami. Obliczenie podatków, rabatów i wysyłki przy realizacji zakupu.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Obliczenie podatków, rabatów i <a href=\"{{ link }}\">wysyłki</a> przy realizacji zakupu.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Obliczenie podatków, rabatów i wysyłki przy realizacji zakupu."
+
+locales/pl.schema.json:
+  1674:             "show_dynamic_checkout": {
+  1676:               "info": "Klienci zobaczą swoją preferowaną opcję płatności. [Dowiedz się więcej](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Klienci zobaczą swoją preferowaną opcję płatności. [Dowiedz się więcej](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/pt-BR.json:
+  170:       "shipping_policy_html": "<a href=\"{{ link }}\">Frete</a> calculado no checkout.",
+  302:       "checkout": "Finalizar a compra",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Tributos de importação e outros tributos incluídos. Descontos e <a href=\"{{ link }}\">frete</a> calculados no checkout.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Tributos de importação e outros tributos incluídos. Descontos e frete calculados no checkout.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Tributos incluídos. Descontos e <a href=\"{{ link }}\">frete</a> calculados no checkout.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Tributos incluídos. Descontos e frete calculados no checkout.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Tributos de importação incluídos. Tributos, descontos e <a href=\"{{ link }}\">frete</a> calculados no checkout.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Tributos de importação incluídos. Tributos, descontos e frete calculados no checkout.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Tributos, descontos e <a href=\"{{ link }}\">frete</a> calculados no checkout.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Tributos, descontos e frete calculados no checkout."
+
+locales/pt-BR.schema.json:
+   112:         "paragraph": "Os preços do carrinho e do checkout sempre mostram os códigos de moeda"
+  1440:           "name": "Botão de checkout"
+  1673:             "show_dynamic_checkout": {
+  1674:               "label": "Botões de checkout dinâmico",
+  1675:               "info": "Os clientes verão a opção de pagamento preferida deles. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2558:               "label": "Botões de checkout dinâmico",
+  2559:               "info": "Os clientes verão a opção de pagamento preferida deles. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/pt-PT.json:
+  302:       "checkout": "Finalizar a compra",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Encargos e impostos incluídos. Descontos e <a href=\"{{ link }}\">envio</a> calculados na finalização da compra.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Encargos e impostos incluídos. Descontos e envio calculados na finalização da compra.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Impostos incluídos. Descontos e <a href=\"{{ link }}\">envio</a> calculados na finalização da compra.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Impostos incluídos. Descontos e envio calculados na finalização da compra.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Encargos incluídos. Impostos, descontos e <a href=\"{{ link }}\">envio</a> calculados na finalização da compra.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Encargos incluídos. Impostos, descontos e envio calculados na finalização da compra.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Impostos, descontos e <a href=\"{{ link }}\">envio</a> calculados na finalização da compra.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Impostos, descontos e envio calculados na finalização da compra."
+
+locales/pt-PT.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "Os clientes vão ver a sua opção de pagamento preferida. [Saber mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Os clientes vão ver a sua opção de pagamento preferida. [Saber mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/ro.json:
+  302:       "checkout": "Finalizați comanda",
+  320:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Taxe și taxe vamale incluse. Reducerile și <a href=\"{{ link }}\">transportul</a> sunt calculate la finalizarea comenzii.",
+  321:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Taxe și taxe vamale incluse. Reducerile și transportul sunt calculate la finalizarea comenzii.",
+  322:       "taxes_included_shipping_at_checkout_with_policy_html": "Taxe incluse. Reducerile și <a href=\"{{ link }}\">transportul</a> sunt calculate la finalizarea comenzii.",
+  323:       "taxes_included_shipping_at_checkout_without_policy": "Taxe incluse. Reducerile și transportul sunt calculate la finalizarea comenzii.",
+  324:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxe vamale incluse. Taxele, reducerile și <a href=\"{{ link }}\">transportul</a> sunt calculate la finalizarea comenzii.",
+  325:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Taxe vamale incluse. Taxele, reducerile și transportul sunt calculate la finalizarea comenzii.",
+  326:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxele, reducerile și <a href=\"{{ link }}\">transportul</a> sunt calculate la finalizarea comenzii.",
+  327:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxele, reducerile și transportul sunt calculate la finalizarea comenzii."
+
+locales/ru.json:
+  312:       "checkout": "Оформить заказ",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Пошлины и налоги включены. Скидки и <a href=\"{{ link }}\">стоимость доставки</a> рассчитываются при оформлении заказа.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Пошлины и налоги включены. Скидки и стоимость доставки рассчитываются при оформлении заказа.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Налоги включены. Скидки и <a href=\"{{ link }}\">стоимость доставки</a> рассчитываются при оформлении заказа.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Налоги включены. Скидки и стоимость доставки рассчитываются при оформлении заказа.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Пошлины включены. Налоги, скидки и <a href=\"{{ link }}\">стоимость доставки</a> рассчитываются при оформлении заказа.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Пошлины включены. Налоги, скидки и стоимость доставки рассчитываются при оформлении заказа.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Налоги, скидки и <a href=\"{{ link }}\">стоимость доставки</a> рассчитываются при оформлении заказа.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Налоги, скидки и стоимость доставки рассчитываются при оформлении заказа."
+
+locales/sk.json:
+  312:       "checkout": "Platba",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Vrátane ciel a daní. Zľavy a <a href=\"{{ link }}\">doprava</a> sa vypočítajú pri platbe.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Vrátane ciel a daní. Zľavy a doprava sa vypočítajú pri platbe.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Vrátane daní. Zľavy a <a href=\"{{ link }}\">doprava</a> sa vypočítajú pri platbe.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Vrátane daní. Zľavy a doprava sa vypočítajú pri platbe.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Vrátane ciel. Dane, zľavy a <a href=\"{{ link }}\">doprava</a> sa vypočítajú pri platbe.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Vrátane ciel. Dane, zľavy a doprava sa vypočítajú pri platbe.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Dane, zľavy a <a href=\"{{ link }}\">doprava</a> sa vypočítajú pri platbe.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Dane, zľavy a doprava sa vypočítajú pri platbe."
+
+locales/sl.json:
+  312:       "checkout": "Zaključi nakup",
+  330:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Dajatve in davki vključeni. Popusti in <a href=\"{{ link }}\">strošek dostave</a> se obračunajo ob zaključku nakupa.",
+  331:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Dajatve in davki vključeni. Popusti in strošek dostave se obračunajo ob zaključku nakupa.",
+  332:       "taxes_included_shipping_at_checkout_with_policy_html": "Davki vključeni. Popusti in <a href=\"{{ link }}\">strošek dostave</a> se obračunajo ob zaključku nakupa.",
+  333:       "taxes_included_shipping_at_checkout_without_policy": "Davki vključeni. Popusti in strošek dostave se obračunajo ob zaključku nakupa.",
+  334:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Dajatve vključene. Davki, popusti in <a href=\"{{ link }}\">strošek dostave</a> se obračunajo ob zaključku nakupa.",
+  335:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Dajatve vključene. Davki, popusti in strošek dostave se obračunajo ob zaključku nakupa.",
+  336:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Davki, popusti in <a href=\"{{ link }}\">strošek dostave</a> se obračunajo ob zaključku nakupa.",
+  337:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Davki, popusti in strošek dostave se obračunajo ob zaključku nakupa."
+
+locales/sv.json:
+  292:       "checkout": "Gå till kassan",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Tullavgifter och skatter ingår. Rabatter och <a href=\"{{ link }}\">fraktkostnad</a> beräknas i kassan.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Tullavgifter och skatter ingår. Rabatter och fraktkostnad beräknas i kassan.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Skatter ingår. Rabatter och <a href=\"{{ link }}\">fraktkostnad</a> beräknas i kassan.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Skatter ingår. Rabatter och fraktkostnad beräknas i kassan.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Tullavgifter ingår. Skatter, rabatter och <a href=\"{{ link }}\">fraktkostnad</a> beräknas i kassan.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Tullavgifter ingår. Skatter, rabatter och fraktkostnad beräknas i kassan.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Skatter, rabatter och <a href=\"{{ link }}\">fraktkostnad</a> beräknas i kassan.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Skatter, rabatter och fraktkostnad beräknas i kassan."
+
+locales/sv.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "Kunder kommer att se sitt föredragna betalningsalternativ. [Mer information](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Kunder kommer att se sitt föredragna betalningsalternativ. [Mer information](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/th.json:
+  292:       "checkout": "ชำระเงิน",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "รวมภาษีและอากรแล้ว ระบบจะคำนวณส่วนลดและ<a href=\"{{ link }}\">ค่าจัดส่ง</a>ในขั้นตอนการชำระเงิน",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "รวมภาษีและอากรแล้ว ระบบจะคำนวณส่วนลดและค่าจัดส่งในขั้นตอนการชำระเงิน",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "รวมภาษีแล้ว ระบบจะคำนวณส่วนลดและ<a href=\"{{ link }}\">ค่าจัดส่ง</a>ในขั้นตอนการชำระเงิน",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "รวมภาษีแล้ว ระบบจะคำนวณส่วนลดและค่าจัดส่งในขั้นตอนการชำระเงิน",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "รวมอากรแล้ว ระบบจะคำนวณภาษี ส่วนลด และ<a href=\"{{ link }}\">ค่าจัดส่ง</a>ในขั้นตอนการชำระเงิน",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "รวมอากรแล้ว ระบบจะคำนวณภาษี ส่วนลด และค่าจัดส่งในขั้นตอนการชำระเงิน",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "ระบบจะคำนวณภาษี ส่วนลด และ<a href=\"{{ link }}\">ค่าจัดส่ง</a>ในขั้นตอนการชำระเงิน",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "ระบบจะคำนวณภาษี ส่วนลด และค่าจัดส่งในขั้นตอนการชำระเงิน"
+
+locales/th.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "ลูกค้าจะเห็นตัวเลือกการชำระเงินที่ตนเองต้องการใช้ [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "ลูกค้าจะเห็นตัวเลือกการชำระเงินที่ตนเองต้องการใช้ [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/tr.json:
+  292:       "checkout": "Ödeme",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Vergiler ve gümrük vergileri dahil. İndirimler ve <a href=\"{{ link }}\">kargo</a>, ödeme sırasında hesaplanır.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Vergiler ve gümrük vergileri dahil. İndirimler ve kargo, ödeme sırasında hesaplanır.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Vergiler dahil. İndirimler ve <a href=\"{{ link }}\">kargo</a>, ödeme sırasında hesaplanır.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Vergiler dahil. İndirimler ve kargo, ödeme sırasında hesaplanır.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Gümrük vergileri dahil. Vergiler, indirimler ve <a href=\"{{ link }}\">kargo</a>, ödeme sayfasında hesaplanır.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Gümrük vergileri dahil. Vergiler, indirimler ve kargo, ödeme sayfasında hesaplanır.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Vergiler, indirimler ve <a href=\"{{ link }}\">kargo</a>, ödeme sayfasında hesaplanır.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Vergiler, indirimler ve kargo, ödeme sayfasında hesaplanır."
+
+locales/tr.schema.json:
+  1673:             "show_dynamic_checkout": {
+  1675:               "info": "Müşteriler tercih ettikleri ödeme seçeneğini görür. [Daha fazla bilgi edinin](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "Müşteriler tercih ettikleri ödeme seçeneğini görür. [Daha fazla bilgi edinin](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/vi.json:
+  292:       "checkout": "Thanh toán",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Đã bao gồm thuế và thuế nhập khẩu. Ưu đãi giảm giá và <a href=\"{{ link }}\">phí vận chuyển</a> được tính khi thanh toán.",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "Đã bao gồm thuế và thuế nhập khẩu. Ưu đãi giảm giá và phí vận chuyển được tính khi thanh toán.",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "Đã bao gồm thuế. Ưu đãi giảm giá và <a href=\"{{ link }}\">phí vận chuyển</a> được tính khi thanh toán.",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "Đã bao gồm thuế. Ưu đãi giảm giá và phí vận chuyển được tính khi thanh toán.",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Đã bao gồm thuế nhập khẩu. Thuế, ưu đãi giảm giá và <a href=\"{{ link }}\">phí vận chuyển</a> được tính khi thanh toán.",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Đã bao gồm thuế nhập khẩu. Thuế, ưu đãi giảm giá và phí vận chuyển được tính khi thanh toán.",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Thuế, ưu đãi giảm giá và <a href=\"{{ link }}\">phí vận chuyển</a> được tính khi thanh toán.",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "Thuế, ưu đãi giảm giá và phí vận chuyển được tính khi thanh toán."
+
+locales/zh-CN.json:
+  292:       "checkout": "结账",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "已含关税和税费。结账时计算折扣和<a href=\"{{ link }}\">运费</a>。",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "已含关税和税费。结账时计算折扣和运费。",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "已含税费。结账时计算折扣和<a href=\"{{ link }}\">运费</a>。",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "已含税费。结账时计算折扣和运费。",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "已含关税。结账时计算税费、折扣和<a href=\"{{ link }}\">运费</a>。",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "已含关税。结账时计算税费、折扣和运费。",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "结账时计算税费、折扣和<a href=\"{{ link }}\">运费</a>。",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "结账时计算税费、折扣和运费。"
+
+locales/zh-CN.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "客户将看到他们首选的支付方式。[详细了解](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "客户将看到他们首选的支付方式。[详细了解](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+locales/zh-TW.json:
+  292:       "checkout": "結帳",
+  310:       "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "已包含關稅和稅額。結帳時計算折扣和<a href=\"{{ link }}\">運費</a>。",
+  311:       "duties_and_taxes_included_shipping_at_checkout_without_policy": "已包含關稅和稅額。結帳時計算折扣和運費。",
+  312:       "taxes_included_shipping_at_checkout_with_policy_html": "已包含稅額。結帳時計算折扣和<a href=\"{{ link }}\">運費</a>。",
+  313:       "taxes_included_shipping_at_checkout_without_policy": "已包含稅額。結帳時計算折扣和運費。",
+  314:       "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "已包含關稅。結帳時計算稅額、折扣和<a href=\"{{ link }}\">運費</a>。",
+  315:       "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "已包含關稅。結帳時計算稅額、折扣和運費。",
+  316:       "taxes_at_checkout_shipping_at_checkout_with_policy_html": "結帳時計算稅額、折扣和<a href=\"{{ link }}\">運費</a>。",
+  317:       "taxes_at_checkout_shipping_at_checkout_without_policy": "結帳時計算稅額、折扣和運費。"
+
+locales/zh-TW.schema.json:
+  1664:             "show_dynamic_checkout": {
+  1666:               "info": "顧客將看到自己偏好的付款選項。[瞭解詳情](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+  2557:             "show_dynamic_checkout": {
+  2559:               "info": "顧客將看到自己偏好的付款選項。[瞭解詳情](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+
+sections/featured-product.liquid:
+  671:           "id": "show_dynamic_checkout",
+  673:           "label": "t:sections.featured-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+  674:           "info": "t:sections.featured-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+
+sections/main-cart-footer.liquid:
+   69:                       {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+   72:                         'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+   78:                       {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+   81:                         'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+   87:                       {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+   90:                         'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+   96:                       {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+   99:                         'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+  110:                   id="checkout"
+  111:                   class="cart__checkout-button button"
+  112:                   name="checkout"
+  118:                   {{ 'sections.cart.checkout' | t }}
+  122:               {%- if additional_checkout_buttons -%}
+  123:                 <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+  124:                   {{ content_for_additional_checkout_buttons }}
+
+sections/main-login.liquid:
+  158:   {%- if shop.checkout.guest_login -%}
+
+sections/main-product.liquid:
+  917:           "id": "show_dynamic_checkout",
+  919:           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.label",
+  920:           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_dynamic_checkout.info"
+
+snippets/buy-buttons.liquid:
+  21:       assign show_dynamic_checkout = false
+  22:       if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
+  23:         assign show_dynamic_checkout = true
+  77:             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+  96:           {%- if show_dynamic_checkout -%}
+
+snippets/cart-drawer.liquid:
+  524:                 {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+  527:                   'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+  533:                 {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+  536:                   'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+  542:                 {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+  545:                   'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+  551:                 {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+  554:                   'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+  567:             id="CartDrawer-Checkout"
+  568:             class="cart__checkout-button button"
+  569:             name="checkout"
+  575:             {{ 'sections.cart.checkout' | t }}
+
+snippets/cart-notification.liquid:
+  47:           <button class="button button--primary button--full-width" name="checkout">
+  48:             {{ 'sections.cart.checkout' | t }}
+
+snippets/quick-order-list.liquid:
+  188:                   {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+  191:                     'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+  197:                   {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+  200:                     'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+  206:                   {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+  209:                     'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+  215:                   {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+  218:                     'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+
+templates/product.json:
+  53:             "show_dynamic_checkout": true,

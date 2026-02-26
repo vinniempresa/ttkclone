@@ -1,0 +1,283 @@
+{% assign delivery_method_types = delivery_agreements | map: 'delivery_method_type' | uniq %}
+{% if delivery_method_types.size > 1 %}
+  {% assign has_split_cart = true %}
+{% else %}
+  {% assign has_split_cart = false %}
+{% endif %}
+
+{% capture email_title %}
+  {% if has_pending_payment %}
+    Agradecemos por seu pedido.
+  {% else %}
+    Obrigado pela compra!
+  {% endif %}
+{% endcapture %}
+{% capture email_body %}
+  {% if has_pending_payment %}
+    {% if buyer_action_required %}
+      Você receberá um e-mail de confirmação após concluir o pagamento.
+    {% else %}
+      O pagamento está sendo processado, e você receberá um e-mail quando o pedido for confirmado.
+    {% endif %}
+  {% else %}
+    {% if requires_shipping %}
+    {% case delivery_method %}
+        {% when 'pick-up' %}
+          Você receberá um e-mail quando seu pedido estiver pronto para retirada.
+        {% when 'local' %}
+          Olá, {{ customer.first_name }}! Estamos preparando seu pedido para entrega.
+        {% else %}
+          Estamos preparando seu pedido para enviá-lo. Enviaremos uma notificação pra você quando ele for enviado.
+      {% endcase %}
+        {% if delivery_instructions != blank  %}
+          <p><b>Detalhes da entrega:</b> {{ delivery_instructions }}</p>
+        {% endif %}
+       {% if consolidated_estimated_delivery_time %}
+        {% if has_multiple_delivery_methods %}
+          <h3 class="estimated_delivery__title">Entrega prevista</h3>
+          <p>{{ consolidated_estimated_delivery_time }}</p>
+        {% else %}
+          <p>
+            Entrega prevista <b>{{ consolidated_estimated_delivery_time }}</b>
+          </p>
+        {% endif %}
+       {% endif %}
+    {% endif %}
+  {% endif %}
+  {% assign gift_card_line_items = line_items | where: "gift_card" %}
+  {% assign found_gift_card_with_recipient_email = false %}
+  {% for line_item in gift_card_line_items %}
+    {% if line_item.properties["__shopify_send_gift_card_to_recipient"] and line_item.properties["Recipient email"] %}
+      {% assign found_gift_card_with_recipient_email = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  {% if found_gift_card_with_recipient_email %}
+    <p>A pessoa presenteada receberá um e-mail com o código do cartão-presente.</p>
+  {% elsif gift_card_line_items.first %}
+    <p>Você receberá e-mails separados dos cartões-presente.</p>
+  {% endif %}
+{% endcapture %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+  <title>{{ email_title }}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/assets/notifications/styles.css">
+  <style>
+    .button__cell { background: {{ shop.email_accent_color }}; }
+    a, a:hover, a:active, a:visited { color: {{ shop.email_accent_color }}; }
+  </style>
+</head>
+
+  <body>
+    <table class="body">
+      <tr>
+        <td>
+          <table class="header row">
+  <tr>
+    <td class="header__cell">
+      <center>
+
+        <table class="container">
+          <tr>
+            <td>
+
+              <table class="row">
+                <tr>
+                  <td class="shop-name__cell">
+                    {%- if shop.email_logo_url %}
+                      <img src="{{shop.email_logo_url}}" alt="{{ shop.name }}" width="{{ shop.email_logo_width }}">
+                    {%- else %}
+                      <h1 class="shop-name__text">
+                        <a href="{{shop.url}}">{{ shop.name }}</a>
+                      </h1>
+                    {%- endif %}
+                  </td>
+
+                    <td>
+                      <table class="order-po-number__container">
+                        <tr>
+                          <td class="order-number__cell">
+                            <span class="order-number__text">
+                              Pedido {{ order_name }}
+                            </span>
+                          </td>
+                        </tr>
+                        {%- if po_number %}
+                            <tr>
+                              <td class="po-number__cell">
+                                <span class="po-number__text">
+                                  Número do pedido de compra: {{ po_number }}
+                                </span>
+                              </td>
+                            </tr>
+                        {%- endif %}
+                      </table>
+                    </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </table>
+
+      </center>
+    </td>
+  </tr>
+</table>
+
+          <table class="row content">
+  <tr>
+    <td class="content__cell">
+      <center>
+        <table class="container">
+          <tr>
+            <td>
+              
+            <h2>{{ email_title }}</h2>
+            <p>{{ email_body }}</p>
+            {% assign transaction_count = transactions | size %}
+  {% if transaction_count > 0 %}
+    {% for transaction in transactions %}
+      {% if transaction.show_buyer_pending_payment_instructions? %}
+        <p> {{transaction.buyer_pending_payment_notice}} </p>
+        <p>
+        <table class="row">
+          <tr>
+            {% for instruction in transaction.buyer_pending_payment_instructions %}
+              <td>{{ instruction.header }}</td>
+            {% endfor %}
+            <td>Valor</td>
+          </tr>
+          <tr>
+            {% for instruction in transaction.buyer_pending_payment_instructions %}
+              <td>{{ instruction.value }}</td>
+            {% endfor %}
+            <td>{{transaction.amount | money}}</td>
+          </tr>
+        </table>
+        </p>
+      {% endif %}
+    {% endfor%}
+  {% endif %}
+
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+
+          <table class="row section">
+  <tr>
+    <td class="section__cell">
+      <center>
+        <table class="container">
+          <tr>
+            <td>
+              <h3>Informações do cliente</h3>
+            </td>
+          </tr>
+        </table>
+        <table class="container">
+          <tr>
+            <td>
+              
+            <table class="row">
+              <tr>
+                {% if requires_shipping and shipping_address %}
+                  <td class="customer-info__item">
+                    <h4>Endereço de entrega</h4>
+                    {{ shipping_address | format_address }}
+                  </td>
+                {% endif %}
+              </tr>
+            </table>
+            <table class="row">
+              <tr>
+                {% if company_location %}
+                  <td class="customer-info__item">
+                    <h4>Local</h4>
+                    <p>
+                      {{ company_location.name }}
+                    </p>
+                  </td>
+                {% endif %}
+                {% if transactions.size > 0 or payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %}
+                  <td class="customer-info__item">
+                    <h4>Pagamento</h4>
+                    <p class="customer-info__item-content">
+                      {% if payment_terms %}
+                        {% case payment_terms.type %}
+                          {% when 'receipt' %}
+                            Pagamento no recebimento
+                          {% when 'fulfillment' %}
+                            A pagar no processamento
+                          {% when 'net' %}
+                            A pagar {{ payment_terms.next_payment.due_at | date: "%b %d, %Y" }}
+                          {% else %}
+                            A pagar
+                        {% endcase %}
+                      {% else %}
+                        {% for transaction in transactions %}
+                          {% if transaction.status == "success" or transaction.status == "pending" %}
+                            {% if transaction.kind == "capture" or transaction.kind == "sale" %}
+                              {% if transaction.payment_details.gift_card_last_four_digits %}
+                                <span class="transaction-details">
+                                  <img src="{{ 'notifications/giftcard.png' | shopify_asset_url }}" class="customer-info__item-icon"/>
+                                  <span>Cartão-presente (com final {{ transaction.payment_details.gift_card_last_four_digits }})</span>
+                                </span><br>
+                              {% elsif transaction.payment_details.credit_card_company %}
+                                {% assign card_icon = transaction.payment_details.credit_card_company | replace: ' ', '-' | downcase %}
+                                <span class="transaction-details">
+                                  <img src="{{ card_icon | prepend: 'notifications/icons/' | append: '.png' | shopify_asset_url }}" class="customer-info__item-icon"/>
+                                  <span>{{ transaction.payment_details.credit_card_company }} (com final {{ transaction.payment_details.credit_card_last_four_digits }})</span>
+                                </span><br>
+                              {% else %}
+                                {{ transaction.gateway_display_name }}<br>
+                              {% endif %}
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </p>
+                  </td>
+                {% endif %}
+              </tr>
+            </table>
+
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+
+          <table class="row footer">
+  <tr>
+    <td class="footer__cell">
+      <center>
+        <table class="container">
+          <tr>
+            <td>
+              
+              <p>Se você tiver alguma dúvida, responda a este e-mail ou entre em contato conosco em <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

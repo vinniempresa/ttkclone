@@ -1,0 +1,87 @@
+{% if fulfillment.item_count == item_count %} {% capture email_title %}Your order is on the way{% endcapture %} {% capture email_body %}Your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% elsif fulfillment.item_count &gt; 1 %} {% if fulfillment_status == 'fulfilled' %} {% capture email_title %}The last items in your order are on the way{% endcapture %} {% capture email_body %}The last items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %} {% else %} {% capture email_title %}Some items in your order are on the way{% endcapture %} {% capture email_body %}Some items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %} {% endif %} {% else %} {% if fulfillment_status == 'fulfilled' %} {% capture email_title %}The last item in your order is on the way{% endcapture %} {% capture email_body %}The last item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% else %} {% capture email_title %}One item in your order is on the way{% endcapture %} {% capture email_body %}One item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %} {% endif %} {% endif %} {% capture email_emphasis %}Estimated delivery date: {{fulfillment.estimated_delivery_at | date: format: 'date'}}{% endcapture %}
+
+{%- if shop.email_logo_url %}  {%- else %}
+{{ shop.name }}
+{%- endif %}	{%- if po_number %} {%- endif %}
+Order {{ order_name }}
+PO number #{{ po_number }}
+{{ email_title }}
+
+{{ email_body }}
+
+{% if fulfillment.estimated_delivery_at %}
+
+{{ email_emphasis }}
+
+{% endif %} {% if order_status_url %}
+&nbsp;
+
+View your order
+{% if shop.url %}
+or Visit our store
+{% endif %}
+{% else %} {% if shop.url %}
+Visit our store
+{% endif %} {% endif %} {% if fulfillment.tracking_numbers.size &gt; 0 %}
+
+
+{% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and fulfillment.tracking_url %} {{ fulfillment.tracking_company }} tracking number: {{ fulfillment.tracking_numbers.first }} {% elsif fulfillment.tracking_numbers.size == 1 %} Tracking number: {{ fulfillment.tracking_numbers.first }} {% else %} {{ fulfillment.tracking_company }} tracking numbers:
+{% for tracking_number in fulfillment.tracking_numbers %} {% if fulfillment.tracking_urls[forloop.index0] %} {{ tracking_number }} {% else %} {{ tracking_number }} {% endif %}
+{% endfor %} {% endif %}
+
+{% endif %}
+Items in this shipment
+{% endunless %} {% endfor %}
+{% for line in fulfillment.fulfillment_line_items %} {% comment %} Skip child add-ons since they will be rendered under the parent line item {% endcomment %} {% unless line.line_item.nested_line_child? %} {% assign is_parent = false %} {% assign is_nested_line_parent = line.line_item.nested_line_parent? %} {% if line.line_item.bundle_parent? or line.line_item.nested_line_parent? %} {% assign is_parent = true %} {% endif %} {% if is_nested_line_parent %} {% assign css_order_list_cell_nested_line_parent_class = 'order-list__parent-cell' %} {% assign css_order_list_parent_image_cell_nested_line_parent_class = 'order-list__nested-parent-image-cell' %} {% endif %}
+{% if line.line_item.nested_line_parent? %} {% for child_line in line.line_item.nested_lines %} {% if false %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if false and is_parent %} {% else %} {% endif %} {% if is_nested_line_parent %} {% endif %}
+{% if line.line_item.image %} 
+{% else %}
+{% endif %}	{% if line.line_item.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line.line_item.presentment_title %} {% assign line_title = line.line_item.presentment_title %} {% elsif line.line_item.title %} {% assign line_title = line.line_item.title %} {% else %} {% assign line_title = line.line_item.product.title %} {% endif %} {% if line.quantity &lt; line.line_item.quantity %} {% capture line_display %} {{ line.quantity }} of {{ line.line_item.quantity }} {% endcapture %} {% else %} {% assign line_display = line.line_item.quantity %} {% endif %} {{ line_title }}&nbsp;×&nbsp;{{ line_display }}
+{% if line.line_item.variant.title != 'Default Title' and is_parent == false %} {{ line.line_item.variant.title }}
+{% elsif line.line_item.variant.title != 'Default Title' and line.line_item.nested_line_parent? %} {{ line.line_item.variant.title }}
+{% elsif line.line_item.variant.title != 'Default Title' and line.line_item.bundle_parent? and false == false %} {{ line.line_item.variant.title }}
+{% endif %} {% if false %} {% for child_line in line.line_item.bundle_components %} {% if true %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_display }}&nbsp;×&nbsp;{{ item_title }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% else %} {% for group in line.line_item.groups %} {% if group.deliverable? %} For: {{ group.display_title }}
+{% else %} Part of: {{ group.display_title }}
+{% endif %} {% endfor %} {% endif %} {% if line.line_item.selling_plan_allocation %} {{ line.line_item.selling_plan_allocation.selling_plan.name }}
+{% endif %} {% if line.line_item.refunded_quantity &gt; 0 %} Refunded {% endif %} {% if line.line_item.discount_allocations %} {% for discount_allocation in line.line_item.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %}
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_title }}&nbsp;×&nbsp;{{ item_display }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% endif %}
+
+If you have any questions, reply to this email or contact us at {{ shop.email }}

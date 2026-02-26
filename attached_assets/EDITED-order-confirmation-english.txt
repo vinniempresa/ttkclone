@@ -1,0 +1,76 @@
+{% assign delivery_method_types = delivery_agreements | map: 'delivery_method_type' | uniq %} {% if delivery_method_types.size > 1 %} {% assign has_split_cart = true %} {% else %} {% assign has_split_cart = false %} {% endif %} {% capture email_title %} {% if has_pending_payment %} Thank you for your order! {% else %} Thank you for your purchase! {% endif %} {% endcapture %} {% capture email_body %} {% if has_pending_payment %} {% if buyer_action_required %} You'll get a confirmation email after completing your payment. {% else %} Your payment is being processed. You'll get an email when your order is confirmed. {% endif %} {% else %} {% if requires_shipping %} {% case delivery_method %} {% when 'pick-up' %} You'll receive an email when your order is ready for pickup. {% when 'local' %} Hi {{ customer.first_name }}, we're getting your order ready for delivery. {% else %} We're getting your order ready to be shipped. We will notify you when it has been sent. {% endcase %} {% if delivery_instructions != blank %}
+
+Delivery information: {{ delivery_instructions }}
+
+{% endif %} {% if consolidated_estimated_delivery_time %} {% if has_multiple_delivery_methods %}
+
+Estimated delivery
+
+{{ consolidated_estimated_delivery_time }}
+
+{% else %}
+
+Estimated delivery {{ consolidated_estimated_delivery_time }}
+
+{% endif %} {% endif %} {% endif %} {% endif %} {% assign gift_card_line_items = line_items | where: "gift_card" %} {% assign found_gift_card_with_recipient_email = false %} {% for line_item in gift_card_line_items %} {% if line_item.properties["__shopify_send_gift_card_to_recipient"] and line_item.properties["Recipient email"] %} {% assign found_gift_card_with_recipient_email = true %} {% break %} {% endif %} {% endfor %} {% if found_gift_card_with_recipient_email %}
+
+Your gift card recipient will receive an email with their gift card code.
+
+{% elsif gift_card_line_items.first %}
+
+You'll receive separate emails for any gift cards.
+
+{% endif %} {% endcapture %}
+
+{%- if shop.email_logo_url %}  {%- else %}
+{{ shop.name }}
+{%- endif %}    {%- if po_number %} {%- endif %}
+Order {{ order_name }}
+PO number #{{ po_number }}
+{{ email_title }}
+
+{{ email_body }}
+
+{% assign transaction_count = transactions | size %} {% if transaction_count > 0 %} {% for transaction in transactions %} {% if transaction.show_buyer_pending_payment_instructions? %}
+
+{{transaction.buyer_pending_payment_notice}}
+
+{% for instruction in transaction.buyer_pending_payment_instructions %} {% endfor %} {% for instruction in transaction.buyer_pending_payment_instructions %} {% endfor %}
+
+{{ instruction.header }}        Amount
+{{ instruction.value }} {{transaction.amount | money}}
+{% endif %} {% endfor%} {% endif %}
+
+Customer information
+{% if requires_shipping and shipping_address %} {% endif %}
+Shipping address
+{{ shipping_address | format_address }} 
+{% if company_location %} {% endif %} {% if transactions.size > 0 or payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %} {% endif %} {% if requires_shipping and shipping_address %} {% if shipping_method %} {% endif %} {% endif %}
+Location
+
+{{ company_location.name }}
+
+        
+Payment
+
+{% if payment_terms %} {% assign due_date = payment_terms.next_payment.due_at | default: nil %} {% if payment_terms.type == 'receipt' or payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %} {{ payment_terms.translated_name }}
+{% else %} {{ payment_terms.translated_name }}: Due {{ due_date | date: format: 'date' }}
+{% endif %} {% endif %} {% if transactions.size > 0 %} {% for transaction in transactions %} {% if transaction.status == "success" or transaction.status == "pending" %} {% if transaction.kind == "capture" or transaction.kind == "sale" %} {% if transaction.payment_details.gift_card_last_four_digits %}  ending with {{ transaction.payment_details.gift_card_last_four_digits }}
+{% elsif transaction.payment_details.type == "shop_pay_installments" and transaction.payment_details.credit_card_company == "unknown" %} 
+Paid with Shop Pay installments
+{% elsif transaction.payment_details.type == "card" %}  ending with {{ transaction.payment_details.credit_card_last_four_digits }}
+{% elsif transaction.gateway_display_name == "Gift card" %}  ending with {{ transaction.payment_details.gift_card.last_four_characters | upcase }}
+   &nbsp;Gift card balance - {{ transaction.payment_details.gift_card.balance | money }} {% elsif transaction.payment_details.local_payment? %}  {{ transaction.payment_details.payment_method_display_name }}
+{% elsif transaction.gateway_display_name != "Shop Cash" and transaction.gateway != "shop_offer" %} {{ transaction.gateway_display_name }}
+{% endif %} {% elsif transaction.kind == "authorization" and transaction.gateway_display_name == "Shop Cash" %} Shop Cash
+{% endif %} {% endif %} {% endfor %} {% endif %}
+
+
+
+Shipping method
+
+{% if delivery_promise_branded_shipping_line %} {{ delivery_promise_branded_shipping_line }} {% else %} {{ shipping_method.title }} {% endif %}
+
+If you have any questions, reply to this email or contact us at {{ shop.email }}
+
+ {%- if billing_address.country_code == 'DE' or billing_address.country_code == 'DK' -%} {%- if shop.terms_of_service.body != blank -%} {{ shop.terms_of_service | attach_as_pdf: "Terms of service" }} {%- endif -%} {%- if shop.refund_policy.body != blank -%} {{ shop.refund_policy | attach_as_pdf: "Refund policy" }} {%- endif -%} {%- endif -%}

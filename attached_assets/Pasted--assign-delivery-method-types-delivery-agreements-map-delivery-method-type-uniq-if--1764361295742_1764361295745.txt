@@ -1,0 +1,761 @@
+{% assign delivery_method_types = delivery_agreements | map: 'delivery_method_type' | uniq %} {% if delivery_method_types.size &gt; 1 %} {% assign has_split_cart = true %} {% else %} {% assign has_split_cart = false %} {% endif %} {% capture email_title %} {% if has_pending_payment %} Thank you for your order! {% else %} Thank you for your purchase! {% endif %} {% endcapture %} {% capture email_body %} {% if has_pending_payment %} {% if buyer_action_required %} You’ll get a confirmation email after completing your payment. {% else %} Your payment is being processed. You'll get an email when your order is confirmed. {% endif %} {% else %} {% if requires_shipping %} {% case delivery_method %} {% when 'pick-up' %} You’ll receive an email when your order is ready for pickup. {% when 'local' %} Hi {{ customer.first_name }}, we're getting your order ready for delivery. {% else %} We're getting your order ready to be shipped. We will notify you when it has been sent. {% endcase %} {% if delivery_instructions != blank %}
+
+Delivery information: {{ delivery_instructions }}
+
+{% endif %} {% if consolidated_estimated_delivery_time %} {% if has_multiple_delivery_methods %}
+
+Estimated delivery
+
+{{ consolidated_estimated_delivery_time }}
+
+{% else %}
+
+Estimated delivery {{ consolidated_estimated_delivery_time }}
+
+{% endif %} {% endif %} {% endif %} {% endif %} {% assign gift_card_line_items = line_items | where: "gift_card" %} {% assign found_gift_card_with_recipient_email = false %} {% for line_item in gift_card_line_items %} {% if line_item.properties["__shopify_send_gift_card_to_recipient"] and line_item.properties["Recipient email"] %} {% assign found_gift_card_with_recipient_email = true %} {% break %} {% endif %} {% endfor %} {% if found_gift_card_with_recipient_email %}
+
+Your gift card recipient will receive an email with their gift card code.
+
+{% elsif gift_card_line_items.first %}
+
+You’ll receive separate emails for any gift cards.
+
+{% endif %} {% endcapture %}
+
+{% endunless %} {% endfor %} {% endif %} {% endif %} {% endfor %}
+
+{%- if shop.email_logo_url %}  {%- else %}
+{{ shop.name }}
+{%- endif %}	{%- if po_number %} {%- endif %}
+Order {{ order_name }}
+PO number #{{ po_number }}
+{{ email_title }}
+
+{{ email_body }}
+
+{% assign transaction_count = transactions | size %} {% if transaction_count &gt; 0 %} {% for transaction in transactions %} {% if transaction.show_buyer_pending_payment_instructions? %}
+
+{{transaction.buyer_pending_payment_notice}}
+
+{% for instruction in transaction.buyer_pending_payment_instructions %} {% endfor %} {% for instruction in transaction.buyer_pending_payment_instructions %} {% endfor %}
+
+{{ instruction.header }}	Amount
+{{ instruction.value }}	{{transaction.amount | money}}
+{% endif %} {% endfor%} {% endif %} {% if order_status_url %}
+&nbsp;
+
+View your order
+{% if shop.url %}
+or Visit our store
+{% endif %}
+{% else %} {% if shop.url %}
+Visit our store
+{% endif %} {% endif %}
+{% endunless %} {% endif %} {% endfor %} {% for line_item_group in delivery_agreement.line_item_groups %} {% if line_item_group.deliverable? == false %} {% assign final_line_price = 0 %} {% assign original_line_price = 0 %} {% assign discount_keys_str = "" %} {% assign parent_line_item = nil %} {% if line_item_group.deliverable? == false %} {% assign line_item_group_class = "order-list__item__cell" %} {% for component in line_item_group.components %} {% assign final_line_price = final_line_price | plus: component.final_line_price %} {% assign original_line_price = original_line_price | plus: component.original_line_price %} {% for da in component.discount_allocations %} {% if da.discount_application.target_selection != 'all' %} {% assign discount_key = da.discount_application.title | append: da.discount_application.type %} {% assign discount_keys_str = discount_keys_str | append: discount_key | append: "," %} {% endif %} {% endfor %} {% endfor %} {% endif %} {% if line_item_group.deliverable? %} {% assign parent_line_item = line_item_group.parent_sales_line_item %} {% assign final_line_price = parent_line_item.final_line_price %} {% assign original_line_price = parent_line_item.original_line_price %} {% assign line_item_group_class = "order-list__parent_item__cell" %} {% assign padding_bottom_none_class = "padding-bottom-none" %} {% endif %} {% assign discount_keys = discount_keys_str | split: "," | uniq %} {% endfor %} {% endif %} {% else %} {% if delivery_agreement == line_item_group.parent_sales_line_item.delivery_agreement %} {% assign final_line_price = 0 %} {% assign original_line_price = 0 %} {% assign discount_keys_str = "" %} {% assign parent_line_item = nil %} {% if line_item_group.deliverable? == false %} {% assign line_item_group_class = "order-list__item__cell" %} {% for component in line_item_group.components %} {% assign final_line_price = final_line_price | plus: component.final_line_price %} {% assign original_line_price = original_line_price | plus: component.original_line_price %} {% for da in component.discount_allocations %} {% if da.discount_application.target_selection != 'all' %} {% assign discount_key = da.discount_application.title | append: da.discount_application.type %} {% assign discount_keys_str = discount_keys_str | append: discount_key | append: "," %} {% endif %} {% endfor %} {% endfor %} {% endif %} {% if line_item_group.deliverable? %} {% assign parent_line_item = line_item_group.parent_sales_line_item %} {% assign final_line_price = parent_line_item.final_line_price %} {% assign original_line_price = parent_line_item.original_line_price %} {% assign line_item_group_class = "order-list__parent_item__cell" %} {% assign padding_bottom_none_class = "padding-bottom-none" %} {% endif %} {% assign discount_keys = discount_keys_str | split: "," | uniq %} {% endfor %} {% endif %} {% else %} {% for component in line_item_group.components %} {% comment %} Skip child add-ons since they will be rendered under the parent line item {% endcomment %} {% unless component.nested_line_child? %} {% assign is_parent = false %} {% assign is_nested_line_parent = component.nested_line_parent? %} {% if component.bundle_parent? or component.nested_line_parent? %} {% assign is_parent = true %} {% endif %} {% if is_nested_line_parent %} {% assign css_order_list_cell_nested_line_parent_class = 'order-list__parent-cell' %} {% assign css_order_list_parent_image_cell_nested_line_parent_class = 'order-list__nested-parent-image-cell' %} {% endif %}
+Order summary
+{% endunless %} {% endif %} {% endunless %} {% endfor %} {% for line_item_group in line_item_groups %} {% unless line_item_group.components.first.delivery_agreement %} {% assign legacy_separator = true %} {% assign final_line_price = 0 %} {% assign original_line_price = 0 %} {% assign discount_keys_str = "" %} {% assign parent_line_item = nil %} {% if line_item_group.deliverable? == false %} {% assign line_item_group_class = "order-list__item__cell" %} {% for component in line_item_group.components %} {% assign final_line_price = final_line_price | plus: component.final_line_price %} {% assign original_line_price = original_line_price | plus: component.original_line_price %} {% for da in component.discount_allocations %} {% if da.discount_application.target_selection != 'all' %} {% assign discount_key = da.discount_application.title | append: da.discount_application.type %} {% assign discount_keys_str = discount_keys_str | append: discount_key | append: "," %} {% endif %} {% endfor %} {% endfor %} {% endif %} {% if line_item_group.deliverable? %} {% assign parent_line_item = line_item_group.parent_sales_line_item %} {% assign final_line_price = parent_line_item.final_line_price %} {% assign original_line_price = parent_line_item.original_line_price %} {% assign line_item_group_class = "order-list__parent_item__cell" %} {% assign padding_bottom_none_class = "padding-bottom-none" %} {% endif %} {% assign discount_keys = discount_keys_str | split: "," | uniq %} {% endfor %} {% endif %} {% endunless %} {% endfor %}
+{% if has_split_cart %} {% for line in subtotal_line_items %} {% unless line.delivery_agreement %} {% if line.groups.size == 0 %} {% assign legacy_separator = true %} {% comment %} Skip child add-ons since they will be rendered under the parent line item {% endcomment %} {% unless line.nested_line_child? %} {% assign is_parent = false %} {% assign is_nested_line_parent = line.nested_line_parent? %} {% if line.bundle_parent? or line.nested_line_parent? %} {% assign is_parent = true %} {% endif %} {% if is_nested_line_parent %} {% assign css_order_list_cell_nested_line_parent_class = 'order-list__parent-cell' %} {% assign css_order_list_parent_image_cell_nested_line_parent_class = 'order-list__nested-parent-image-cell' %} {% endif %}
+{% if false and is_parent %} {% if line.nested_line_parent? %} {% for child_line in line.nested_lines %} {% if false %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if false and is_parent %} {% else %} {% endif %} {% if is_nested_line_parent %} {% endif %}
+{% if line.image %} 
+{% else %}
+{% endif %}	{% if line.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line.presentment_title %} {% assign line_title = line.presentment_title %} {% elsif line.title %} {% assign line_title = line.title %} {% else %} {% assign line_title = line.product.title %} {% endif %} {% if line.quantity &lt; line.quantity %} {% capture line_display %} {{ line.quantity }} of {{ line.quantity }} {% endcapture %} {% else %} {% assign line_display = line.quantity %} {% endif %} {{ line_title }}&nbsp;×&nbsp;{{ line_display }}
+{% if line.variant.title != 'Default Title' and is_parent == false %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.nested_line_parent? %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.bundle_parent? and false == false %} {{ line.variant.title }}
+{% endif %} {% if false %} {% for child_line in line.bundle_components %} {% if true %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_display }}&nbsp;×&nbsp;{{ item_title }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% else %} {% for group in line.groups %} {% if group.deliverable? %} For: {{ group.display_title }}
+{% else %} Part of: {{ group.display_title }}
+{% endif %} {% endfor %} {% endif %} {% if line.gift_card and line.properties["__shopify_send_gift_card_to_recipient"] %} {% for property in line.properties %} {% assign property_first_char = property.first | slice: 0 %} {% if property.last != blank and property_first_char != '_' %}
+{{ property.first }}:{% if property.last contains '/uploads/' %} {{ property.last | split: '/' | last }} {% else %} {{ property.last }} {% endif %}
+{% endif %} {% endfor %} {% endif %} {% if line.selling_plan_allocation %} {{ line.selling_plan_allocation.selling_plan.name }}
+{% endif %} {% if line.refunded_quantity &gt; 0 %} Refunded {% endif %} {% if line.discount_allocations %} {% for discount_allocation in line.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %}	{% else %}	{% endif %} {% if line.original_line_price != line.final_line_price %} {{ line.original_line_price | money }} {% endif %}
+
+{% if line.final_line_price &gt; 0 %} {{ line.final_line_price | money }} {% if line.unit_price_measurement %}
+
+{{- line.unit_price | unit_price_with_measurement: line.unit_price_measurement -}}
+{% endif %} {% else %} Free {% endif %}
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_title }}&nbsp;×&nbsp;{{ item_display }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% endif %}
+
+
+{% if line_item_group.deliverable? == true %} {% endif %}
+{% if parent_line_item and parent_line_item.image %} 
+{% elsif line_item_group.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line_item_group.deliverable? == false %} {% for component in line_item_group.components %} {% if true %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %} {% endfor %} {% endif %}
+{{ line_item_group.title }}&nbsp;×&nbsp;{{ line_item_group.quantity }}
+{% if line_item_group.variant and line_item_group.variant.title != 'Default Title' %} {{ line_item_group.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if parent_line_item.discount_allocations %} {% for discount_allocation in parent_line_item.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% else %} {% for discount_key in discount_keys %} {% assign discount_amount = 0 %} {% for component in line_item_group.components %} {% for da in component.discount_allocations %} {% assign key = da.discount_application.title | append: da.discount_application.type %} {% if da.discount_application.target_selection != 'all' and key == discount_key %} {% assign discount_amount = discount_amount | plus: da.amount %} {% assign discount_title = da.discount_application.title %} {% endif %} {% endfor %} {% endfor %}
+
+ {{ discount_title | upcase }} (-{{ discount_amount | money }})
+
+{% endfor %} {% endif %}	{% if original_line_price != final_line_price %} {{ original_line_price | money }} {% endif %}
+
+{% if final_line_price &gt; 0 %} {{ final_line_price | money }} {% else %} {{ 'notifications.views.mailers.notifications.discount_free' | t }} {% endif %}
+
+
+{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% if line_item_group.deliverable? %}	{% for component in line_item_group.components %}
+{% if false %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %}
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% if legacy_separator %}
+{% endif %} {% for delivery_agreement in delivery_agreements %} {% if delivery_agreement.line_items != blank %} {% if delivery_agreements.size &gt; 1 %}
+{{ delivery_agreement.delivery_method_name }} items
+{% endif %} {% for line in delivery_agreement.non_parent_line_items %} {% if line.groups.size == 0 %} {% comment %} Skip child add-ons since they will be rendered under the parent line item {% endcomment %} {% unless line.nested_line_child? %} {% assign is_parent = false %} {% assign is_nested_line_parent = line.nested_line_parent? %} {% if line.bundle_parent? or line.nested_line_parent? %} {% assign is_parent = true %} {% endif %} {% if is_nested_line_parent %} {% assign css_order_list_cell_nested_line_parent_class = 'order-list__parent-cell' %} {% assign css_order_list_parent_image_cell_nested_line_parent_class = 'order-list__nested-parent-image-cell' %} {% endif %}
+{% if false and is_parent %} {% if line.nested_line_parent? %} {% for child_line in line.nested_lines %} {% if false %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if false and is_parent %} {% else %} {% endif %} {% if is_nested_line_parent %} {% endif %}
+{% if line.image %} 
+{% else %}
+{% endif %}	{% if line.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line.presentment_title %} {% assign line_title = line.presentment_title %} {% elsif line.title %} {% assign line_title = line.title %} {% else %} {% assign line_title = line.product.title %} {% endif %} {% if line.quantity &lt; line.quantity %} {% capture line_display %} {{ line.quantity }} of {{ line.quantity }} {% endcapture %} {% else %} {% assign line_display = line.quantity %} {% endif %} {{ line_title }}&nbsp;×&nbsp;{{ line_display }}
+{% if line.variant.title != 'Default Title' and is_parent == false %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.nested_line_parent? %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.bundle_parent? and false == false %} {{ line.variant.title }}
+{% endif %} {% if false %} {% for child_line in line.bundle_components %} {% if true %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_display }}&nbsp;×&nbsp;{{ item_title }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% else %} {% for group in line.groups %} {% if group.deliverable? %} For: {{ group.display_title }}
+{% else %} Part of: {{ group.display_title }}
+{% endif %} {% endfor %} {% endif %} {% if line.gift_card and line.properties["__shopify_send_gift_card_to_recipient"] %} {% for property in line.properties %} {% assign property_first_char = property.first | slice: 0 %} {% if property.last != blank and property_first_char != '_' %}
+{{ property.first }}:{% if property.last contains '/uploads/' %} {{ property.last | split: '/' | last }} {% else %} {{ property.last }} {% endif %}
+{% endif %} {% endfor %} {% endif %} {% if line.selling_plan_allocation %} {{ line.selling_plan_allocation.selling_plan.name }}
+{% endif %} {% if line.refunded_quantity &gt; 0 %} Refunded {% endif %} {% if line.discount_allocations %} {% for discount_allocation in line.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %}	{% else %}	{% endif %} {% if line.original_line_price != line.final_line_price %} {{ line.original_line_price | money }} {% endif %}
+
+{% if line.final_line_price &gt; 0 %} {{ line.final_line_price | money }} {% if line.unit_price_measurement %}
+
+{{- line.unit_price | unit_price_with_measurement: line.unit_price_measurement -}}
+{% endif %} {% else %} Free {% endif %}
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_title }}&nbsp;×&nbsp;{{ item_display }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% endif %}
+
+
+{% if line_item_group.deliverable? == true %} {% endif %}
+{% if parent_line_item and parent_line_item.image %} 
+{% elsif line_item_group.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line_item_group.deliverable? == false %} {% for component in line_item_group.components %} {% if true %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %} {% endfor %} {% endif %}
+{{ line_item_group.title }}&nbsp;×&nbsp;{{ line_item_group.quantity }}
+{% if line_item_group.variant and line_item_group.variant.title != 'Default Title' %} {{ line_item_group.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if parent_line_item.discount_allocations %} {% for discount_allocation in parent_line_item.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% else %} {% for discount_key in discount_keys %} {% assign discount_amount = 0 %} {% for component in line_item_group.components %} {% for da in component.discount_allocations %} {% assign key = da.discount_application.title | append: da.discount_application.type %} {% if da.discount_application.target_selection != 'all' and key == discount_key %} {% assign discount_amount = discount_amount | plus: da.amount %} {% assign discount_title = da.discount_application.title %} {% endif %} {% endfor %} {% endfor %}
+
+ {{ discount_title | upcase }} (-{{ discount_amount | money }})
+
+{% endfor %} {% endif %}	{% if original_line_price != final_line_price %} {{ original_line_price | money }} {% endif %}
+
+{% if final_line_price &gt; 0 %} {{ final_line_price | money }} {% else %} {{ 'notifications.views.mailers.notifications.discount_free' | t }} {% endif %}
+
+
+{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% if line_item_group.deliverable? %}	{% for component in line_item_group.components %}
+{% if false %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %}
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+
+
+{% if line_item_group.deliverable? == true %} {% endif %}
+{% if parent_line_item and parent_line_item.image %} 
+{% elsif line_item_group.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line_item_group.deliverable? == false %} {% for component in line_item_group.components %} {% if true %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %} {% endfor %} {% endif %}
+{{ line_item_group.title }}&nbsp;×&nbsp;{{ line_item_group.quantity }}
+{% if line_item_group.variant and line_item_group.variant.title != 'Default Title' %} {{ line_item_group.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if parent_line_item.discount_allocations %} {% for discount_allocation in parent_line_item.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% else %} {% for discount_key in discount_keys %} {% assign discount_amount = 0 %} {% for component in line_item_group.components %} {% for da in component.discount_allocations %} {% assign key = da.discount_application.title | append: da.discount_application.type %} {% if da.discount_application.target_selection != 'all' and key == discount_key %} {% assign discount_amount = discount_amount | plus: da.amount %} {% assign discount_title = da.discount_application.title %} {% endif %} {% endfor %} {% endfor %}
+
+ {{ discount_title | upcase }} (-{{ discount_amount | money }})
+
+{% endfor %} {% endif %}	{% if original_line_price != final_line_price %} {{ original_line_price | money }} {% endif %}
+
+{% if final_line_price &gt; 0 %} {{ final_line_price | money }} {% else %} {{ 'notifications.views.mailers.notifications.discount_free' | t }} {% endif %}
+
+
+{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% if line_item_group.deliverable? %}	{% for component in line_item_group.components %}
+{% if false %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %}
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+
+{% if false and is_parent %} {% if component.nested_line_parent? %} {% for child_line in component.nested_lines %} {% if false %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if false and is_parent %} {% else %} {% endif %} {% if is_nested_line_parent %} {% endif %}
+{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if component.presentment_title %} {% assign line_title = component.presentment_title %} {% elsif component.title %} {% assign line_title = component.title %} {% else %} {% assign line_title = component.product.title %} {% endif %} {% if line.quantity &lt; component.quantity %} {% capture line_display %} {{ line.quantity }} of {{ component.quantity }} {% endcapture %} {% else %} {% assign line_display = component.quantity %} {% endif %} {{ line_title }}&nbsp;×&nbsp;{{ line_display }}
+{% if component.variant.title != 'Default Title' and is_parent == false %} {{ component.variant.title }}
+{% elsif component.variant.title != 'Default Title' and component.nested_line_parent? %} {{ component.variant.title }}
+{% elsif component.variant.title != 'Default Title' and component.bundle_parent? and false == false %} {{ component.variant.title }}
+{% endif %} {% if false %} {% for child_line in component.bundle_components %} {% if true %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_display }}&nbsp;×&nbsp;{{ item_title }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% else %} {% for group in component.groups %} {% if group.deliverable? %} For: {{ group.display_title }}
+{% else %} Part of: {{ group.display_title }}
+{% endif %} {% endfor %} {% endif %} {% if component.gift_card and component.properties["__shopify_send_gift_card_to_recipient"] %} {% for property in component.properties %} {% assign property_first_char = property.first | slice: 0 %} {% if property.last != blank and property_first_char != '_' %}
+{{ property.first }}:{% if property.last contains '/uploads/' %} {{ property.last | split: '/' | last }} {% else %} {{ property.last }} {% endif %}
+{% endif %} {% endfor %} {% endif %} {% if component.selling_plan_allocation %} {{ component.selling_plan_allocation.selling_plan.name }}
+{% endif %} {% if component.refunded_quantity &gt; 0 %} Refunded {% endif %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %}	{% else %}	{% endif %} {% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% if component.unit_price_measurement %}
+
+{{- component.unit_price | unit_price_with_measurement: component.unit_price_measurement -}}
+{% endif %} {% else %} Free {% endif %}
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_title }}&nbsp;×&nbsp;{{ item_display }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% endif %}
+
+{% unless forloop.last %}
+
+{% endunless %} {% endif %} {% endfor %} {% else %} {% for line in non_parent_line_items %} {% if line.groups.size == 0 %} {% comment %} Skip child add-ons since they will be rendered under the parent line item {% endcomment %} {% unless line.nested_line_child? %} {% assign is_parent = false %} {% assign is_nested_line_parent = line.nested_line_parent? %} {% if line.bundle_parent? or line.nested_line_parent? %} {% assign is_parent = true %} {% endif %} {% if is_nested_line_parent %} {% assign css_order_list_cell_nested_line_parent_class = 'order-list__parent-cell' %} {% assign css_order_list_parent_image_cell_nested_line_parent_class = 'order-list__nested-parent-image-cell' %} {% endif %}
+
+{% if false and is_parent %} {% if line.nested_line_parent? %} {% for child_line in line.nested_lines %} {% if false %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if false and is_parent %} {% else %} {% endif %} {% if is_nested_line_parent %} {% endif %}
+{% if line.image %} 
+{% else %}
+{% endif %}	{% if line.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line.presentment_title %} {% assign line_title = line.presentment_title %} {% elsif line.title %} {% assign line_title = line.title %} {% else %} {% assign line_title = line.product.title %} {% endif %} {% if line.quantity &lt; line.quantity %} {% capture line_display %} {{ line.quantity }} of {{ line.quantity }} {% endcapture %} {% else %} {% assign line_display = line.quantity %} {% endif %} {{ line_title }}&nbsp;×&nbsp;{{ line_display }}
+{% if line.variant.title != 'Default Title' and is_parent == false %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.nested_line_parent? %} {{ line.variant.title }}
+{% elsif line.variant.title != 'Default Title' and line.bundle_parent? and false == false %} {{ line.variant.title }}
+{% endif %} {% if false %} {% for child_line in line.bundle_components %} {% if true %} {% assign css_class = 'order-list__bundle-item' %} {% assign css_image_class = 'order-list__image-cell' %} {% assign css_description_class = 'order-list__product-description-cell' %} {% else %} {% assign css_class = 'order-list__deliverable-item_abandoned' %} {% assign css_image_class = 'order-list__image-cell--nested-line-item' %} {% assign css_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %}
+{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_display }}&nbsp;×&nbsp;{{ item_title }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% else %} {% for group in line.groups %} {% if group.deliverable? %} For: {{ group.display_title }}
+{% else %} Part of: {{ group.display_title }}
+{% endif %} {% endfor %} {% endif %} {% if line.gift_card and line.properties["__shopify_send_gift_card_to_recipient"] %} {% for property in line.properties %} {% assign property_first_char = property.first | slice: 0 %} {% if property.last != blank and property_first_char != '_' %}
+{{ property.first }}:{% if property.last contains '/uploads/' %} {{ property.last | split: '/' | last }} {% else %} {{ property.last }} {% endif %}
+{% endif %} {% endfor %} {% endif %} {% if line.selling_plan_allocation %} {{ line.selling_plan_allocation.selling_plan.name }}
+{% endif %} {% if line.refunded_quantity &gt; 0 %} Refunded {% endif %} {% if line.discount_allocations %} {% for discount_allocation in line.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %}	{% else %}	{% endif %} {% if line.original_line_price != line.final_line_price %} {{ line.original_line_price | money }} {% endif %}
+
+{% if line.final_line_price &gt; 0 %} {{ line.final_line_price | money }} {% if line.unit_price_measurement %}
+
+{{- line.unit_price | unit_price_with_measurement: line.unit_price_measurement -}}
+{% endif %} {% else %} Free {% endif %}
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if child_line.image %} 
+{% else %}
+{% endif %}	{% if child_line.product.title %} {% assign item_title = child_line.product.title %} {% else %} {% assign item_title = child_line.title %} {% endif %} {% assign item_display = child_line.quantity %} {{ item_title }}&nbsp;×&nbsp;{{ item_display }}
+{% if child_line.variant.title != 'Default Title'%} {{ child_line.variant.title }} {% endif %}
+{% endfor %} {% endif %}
+
+{% endunless %} {% endif %} {% endfor %} {% for line_item_group in line_item_groups %} {% assign final_line_price = 0 %} {% assign original_line_price = 0 %} {% assign discount_keys_str = "" %} {% assign parent_line_item = nil %} {% if line_item_group.deliverable? == false %} {% assign line_item_group_class = "order-list__item__cell" %} {% for component in line_item_group.components %} {% assign final_line_price = final_line_price | plus: component.final_line_price %} {% assign original_line_price = original_line_price | plus: component.original_line_price %} {% for da in component.discount_allocations %} {% if da.discount_application.target_selection != 'all' %} {% assign discount_key = da.discount_application.title | append: da.discount_application.type %} {% assign discount_keys_str = discount_keys_str | append: discount_key | append: "," %} {% endif %} {% endfor %} {% endfor %} {% endif %} {% if line_item_group.deliverable? %} {% assign parent_line_item = line_item_group.parent_sales_line_item %} {% assign final_line_price = parent_line_item.final_line_price %} {% assign original_line_price = parent_line_item.original_line_price %} {% assign line_item_group_class = "order-list__parent_item__cell" %} {% assign padding_bottom_none_class = "padding-bottom-none" %} {% endif %} {% assign discount_keys = discount_keys_str | split: "," | uniq %}
+
+{% if line_item_group.deliverable? == true %} {% endif %}
+{% if parent_line_item and parent_line_item.image %} 
+{% elsif line_item_group.image %} 
+{% else %}
+{% endif %}
+
+
+
+	
+
+
+	{% if line_item_group.deliverable? == false %} {% for component in line_item_group.components %} {% if true %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if false %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %} {% endfor %} {% endif %}
+{{ line_item_group.title }}&nbsp;×&nbsp;{{ line_item_group.quantity }}
+{% if line_item_group.variant and line_item_group.variant.title != 'Default Title' %} {{ line_item_group.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if parent_line_item.discount_allocations %} {% for discount_allocation in parent_line_item.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% else %} {% for discount_key in discount_keys %} {% assign discount_amount = 0 %} {% for component in line_item_group.components %} {% for da in component.discount_allocations %} {% assign key = da.discount_application.title | append: da.discount_application.type %} {% if da.discount_application.target_selection != 'all' and key == discount_key %} {% assign discount_amount = discount_amount | plus: da.amount %} {% assign discount_title = da.discount_application.title %} {% endif %} {% endfor %} {% endfor %}
+
+ {{ discount_title | upcase }} (-{{ discount_amount | money }})
+
+{% endfor %} {% endif %}	{% if original_line_price != final_line_price %} {{ original_line_price | money }} {% endif %}
+
+{% if final_line_price &gt; 0 %} {{ final_line_price | money }} {% else %} {{ 'notifications.views.mailers.notifications.discount_free' | t }} {% endif %}
+
+
+{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% if line_item_group.deliverable? %} {% for component in line_item_group.components %} {% if false %} {% assign order_list_item_class = "order-list__bundle-item" %} {% assign css_image_class = 'order-list__image-cell' %} {% assign order_list_product_description_class = 'order-list__product-description-cell' %} {% else %} {% assign order_list_product_description_class = 'order-list__product-description-cell--nested-line-item' %} {% if forloop.last %} {% assign css_curved_line_cell_container_class = 'curved-line-cell-container__top-spacer-cell--show-border' %} {% assign css_hide_vertical_line_class = 'vertical-line__content--hide' %} {% assign css_curved_line_cell_container_cell__no_padding_class = 'curved-line-cell-container__cell--no-padding' %} {% endif %} {% endif %} {% if line_item_group.deliverable? %} {% endif %}
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+	
+
+
+	{% if component.image %} 
+{% else %}
+{% endif %}	{% if component.product.title %} {% assign component_title = component.product.title %} {% else %} {% assign component_title = component.title %} {% endif %} {% if line_item_group.deliverable? %} {{ component_title }}&nbsp;×&nbsp;{{ component.quantity }} {% else %} {{ component.quantity }}&nbsp;×&nbsp;{{ component_title }} {% endif %}
+{% if component.variant.title != 'Default Title' %} {{ component.variant.title }} {% endif %} {% if line_item_group.deliverable? %} {% if component.discount_allocations %} {% for discount_allocation in component.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %}
+
+ {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }})
+
+{% endif %} {% endfor %} {% endif %} {% endif %}	{% if component.original_line_price != component.final_line_price %} {{ component.original_line_price | money }} {% endif %}
+
+{% if component.final_line_price &gt; 0 %} {{ component.final_line_price | money }} {% else %} Free {% endif %}
+
+{% endfor %} {% endif %} {% endfor %} {% endif %}
+
+	{% assign total_order_discount_amount = 0 %} {% assign has_shipping_discount = false %} {% assign epsilon = 0.00001 %} {% for discount_application in discount_applications %} {% if discount_application.target_selection == 'all' and discount_application.target_type == 'line_item' %} {% assign order_discount_count = order_discount_count | plus: 1 %} {% assign total_order_discount_amount = total_order_discount_amount | plus: discount_application.total_allocated_amount %} {% endif %} {% if discount_application.target_type == 'shipping_line' %} {% assign has_shipping_discount = true %} {% assign shipping_discount_title = discount_application.title %} {% assign discount_value_price = discount_application.total_allocated_amount %} {% assign shipping_amount_minus_discount_value_price = shipping_price | minus: discount_value_price %} {% assign shipping_amount_minus_discount_value_price_abs = shipping_amount_minus_discount_value_price | abs %} {% assign discount_application_value_type = discount_application.value_type | strip %} {% if shipping_amount_minus_discount_value_price_abs &lt; epsilon or discount_application_value_type == 'percentage' and discount_application.value == 100 %} {% assign free_shipping = true %} {% else %} {% assign discounted_shipping_price = shipping_amount_minus_discount_value_price %} {% endif %} {% endif %} {% endfor %} {% if order_discount_count &gt; 0 %} {% if order_discount_count == 1 %} {% endif %} {% if order_discount_count &gt; 1 %} {% endif %} {% for discount_application in discount_applications %} {% if discount_application.target_selection == 'all' and discount_application.target_type != 'shipping_line' %} {% endif %} {% endfor %} {% endif %} {% unless retail_delivery_only %} {% if delivery_method == 'pick-up' %} {% else %} {% if has_shipping_discount %} {% if free_shipping == true %} {% else %} {% endif %} {% else %} {% endif %} {% endif %} {% endunless %} {% if total_duties %} {% endif %} {% if total_tip and total_tip &gt; 0 %} {% endif %}
+
+Subtotal
+
+	{{ subtotal_price | plus: total_order_discount_amount | money }}
+
+
+Order discount
+
+	-{{ total_order_discount_amount | money }}
+
+
+Order discounts
+
+	-{{ total_order_discount_amount | money }}
+
+
+ {{ discount_application.title }} (-{{ discount_application.total_allocated_amount | money }})
+
+
+
+
+Pickup
+
+	{{ shipping_price | money }}
+
+
+Shipping
+
+	{% if shipping_price != 0 %}{{ shipping_price | money}}{% endif %} Free
+
+
+Shipping
+
+	{{ shipping_price | money }} {{ discounted_shipping_price | money }}
+
+
+ {{ shipping_discount_title }} {% if discount_value_price != 0 %} (-{{ discount_value_price | money }}) {% endif %}
+
+
+
+
+Shipping
+
+	{{ shipping_price | money }}
+
+
+Duties
+
+	{{ total_duties | money }}
+
+
+Taxes
+
+	{{ tax_price | money }}
+
+
+Tip
+
+	{{ total_tip | money }}
+{% assign transaction_size = 0 %} {% assign transaction_amount = 0 %} {% assign net_transaction_amount_rounding = 0 %} {% assign authorized_amount = 0 %} {% assign has_refunds = false %} {% assign shopify_pay_captured = false %} {% assign shop_cash_offers_captured = false %} {% for transaction in transactions %} {% if transaction.kind == "sale" or transaction.kind == "capture" %} {% if transaction.status == "success" %} {% if transaction.payment_details.credit_card_company %} {% assign shopify_pay_captured = true %} {% endif %} {% if transaction.gateway == "shop_cash" or transaction.gateway == "shop_offer" %} {% assign shop_cash_offers_captured = true %} {% endif %} {% assign transaction_size = transaction_size | plus: 1 %} {% assign transaction_amount = transaction_amount | plus: transaction.amount %} {% if transaction.amount_rounding != nil %} {% assign net_transaction_amount_rounding = net_transaction_amount_rounding | plus: transaction.amount_rounding %} {% endif %} {% endif %} {% elsif transaction.kind == "authorization" %} {% if transaction.status == "success" %} {% assign authorized_amount = authorized_amount | plus: transaction.amount %} {% endif %} {% elsif transaction.kind == "refund" or transaction.kind == "change" %} {% if transaction.status == "success" or transaction.status == "pending" %} {% assign transaction_size = transaction_size | plus: 1 %} {% assign transaction_amount = transaction_amount | minus: transaction.amount %} {% assign has_refunds = true %} {% if transaction.amount_rounding != nil %} {% assign net_transaction_amount_rounding = net_transaction_amount_rounding | minus: transaction.amount_rounding %} {% endif %} {% endif %} {% endif %} {% endfor %} {% # Add shop cash/offer transactions to totals if shopify pay is captured and shop cash/offer is not captured yet %} {% if shopify_pay_captured == true and shop_cash_offers_captured == false %} {% for transaction in transactions %} {% if transaction.status == "success" %} {% if transaction.kind == "authorization" and transaction.gateway == "shop_cash" or transaction.gateway == "shop_offer" %} {% assign transaction_size = transaction_size | plus: 1 %} {% assign transaction_amount = transaction_amount | plus: transaction.amount %} {% if transaction.amount_rounding != nil %} {% assign net_transaction_amount_rounding = net_transaction_amount_rounding | plus: transaction.amount_rounding %} {% endif %} {% endif %} {% endif %} {% endfor %} {% endif %} {% if payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %} {% assign next_payment = payment_terms.next_payment %} {% assign due_at_date = next_payment.due_at | date: "%b %d, %Y" %} {% if net_transaction_amount_rounding != 0 %} {% if total_discounts &gt; 0 %} {% endif %}
+
+
+{% endif %}
+{% assign next_amount_due = total_price %} {% if next_payment %} {% assign next_amount_due = next_payment.amount_due %} {% elsif total_outstanding &gt; 0 %} {% assign next_amount_due = total_outstanding %} {% endif %} {% if payment_terms.type == 'receipt' %}
+{% elsif payment_terms.type == 'fulfillment' %} {% else %} {% endif %} {% if total_discounts &gt; 0 and net_transaction_amount_rounding == 0 %} {% endif %} {% else %} {% if total_discounts &gt; 0 %} {% endif %} {% if net_transaction_amount_rounding != 0 %}
+
+
+{% if financial_status == 'paid' %} {% endif %} {% endif %} {% if transaction_amount != total_price and payment_terms == nil%} {% if transaction_amount == 0 and authorized_amount &gt; 0 and has_refunds == false %} {% else %}
+
+
+{% endif %} {% endif %} {% endif %}
+
+Total
+
+	{{ total_price | money_with_currency }}
+	You saved {{ total_discounts | money }}
+
+
+
+Cash rounding
+
+	{% if net_transaction_amount_rounding &lt; 0 %}-{% endif %} {{ net_transaction_amount_rounding | abs | money }}
+
+
+
+Total paid today
+
+	{{ transaction_amount | plus: net_transaction_amount_rounding | money_with_currency }}
+
+
+Total due on receipt
+
+	{{ next_amount_due | money_with_currency }}
+
+
+Total due on fulfillment
+
+	{{ next_amount_due | money_with_currency }}
+
+
+Total due {{ due_at_date }}
+
+	{{ next_amount_due | money_with_currency }}
+	You saved {{ total_discounts | money }}
+
+
+Total
+
+	{{ total_price | money_with_currency }}
+	You saved {{ total_discounts | money }}
+
+
+
+Cash rounding
+
+	{% if net_transaction_amount_rounding &lt; 0 %}-{% endif %} {{ net_transaction_amount_rounding | abs | money }}
+
+
+Paid
+{{ order.transactions | map: 'gateway_display_name' | uniq | join: ', ' }}
+
+	{{ transaction_amount | plus: net_transaction_amount_rounding | money_with_currency }}
+
+
+Total paid today
+
+	{{ transaction_amount | plus: net_transaction_amount_rounding | money_with_currency }}
+{% unless payment_terms %} {% if transaction_size &gt; 1 or transaction_amount &lt; total_price %} {% for transaction in transactions %} {% assign amount_rounding = 0 %} {% if transaction.amount_rounding != 0 %} {% assign amount_rounding = transaction.amount_rounding %} {% endif %} {% if transaction.status == "success" and transaction.kind == "capture" or transaction.kind == "sale" %} {% if transaction.payment_details.gift_card_last_four_digits %} {% capture transaction_name %}Gift card (ending with {{ transaction.payment_details.gift_card_last_four_digits }}){% endcapture %} {% elsif transaction.payment_details.credit_card_company %} {% capture transaction_name %}{{ transaction.payment_details.credit_card_company }} (ending in {{ transaction.payment_details.credit_card_last_four_digits }}){% endcapture %} {% else %} {% capture transaction_name %}{{ transaction.gateway_display_name }}{% endcapture %} {% endif %} {% elsif shopify_pay_captured and shop_cash_offers_captured == false and transaction.kind == "authorization" and transaction.gateway == "shop_cash" or transaction.gateway == "shop_offer" %} {% capture transaction_name %}{{ transaction.gateway_display_name }}{% endcapture %} {% endif %} {% if transaction.kind == 'refund' and transaction.gateway != "shop_offer" %} {% if transaction.payment_details.gift_card_last_four_digits %} {% assign refund_method_title = transaction.payment_details.type %} {% elsif transaction.payment_details.local_payment %} {% assign refund_method_title = transaction.payment_details.payment_method_name %} {% elsif transaction.payment_details.credit_card_company %} {% assign refund_method_title = transaction.payment_details.credit_card_company %} {% else %} {% assign refund_method_title = transaction.gateway_display_name %} {% endif %} {% if transaction.gateway == 'shopify_store_credit' %} {% assign link_url = routes.account_profile_url %} {% capture link_text %}View{% endcapture %} {% else %} {% assign link_url = nil %} {% assign link_text = nil %} {% endif %} {% endif %} {% endfor %}
+
+
+
+
+{{transaction_name}}
+
+	{{ transaction.amount | plus: amount_rounding | money }}
+
+
+{{transaction_name}}
+
+	{{ transaction.amount | plus: amount_rounding | money }}
+
+
+Refund
+{{ refund_method_title | replace: '_', ' ' | capitalize }} &nbsp;&nbsp;{{ link_text }}
+
+	{{ transaction.amount | plus: amount_rounding | times: -1 | money }}
+{% endif %} {% endunless %}
+Customer information
+{% if requires_shipping and shipping_address %} {% endif %} {% if billing_address %} {% endif %}
+Shipping address
+{{ shipping_address | format_address }}	
+Billing address
+{{ billing_address | format_address }}
+{% if company_location %} {% endif %} {% if transactions.size &gt; 0 or payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %} {% endif %} {% if requires_shipping and shipping_address %} {% if shipping_method %} {% endif %} {% endif %}
+Location
+
+{{ company_location.name }}
+
+	
+Payment
+
+{% if payment_terms %} {% assign due_date = payment_terms.next_payment.due_at | default: nil %} {% if payment_terms.type == 'receipt' or payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %} {{ payment_terms.translated_name }}
+{% else %} {{ payment_terms.translated_name }}: Due {{ due_date | date: format: 'date' }}
+{% endif %} {% endif %} {% if transactions.size &gt; 0 %} {% for transaction in transactions %} {% if transaction.status == "success" or transaction.status == "pending" %} {% if transaction.kind == "capture" or transaction.kind == "sale" %} {% if transaction.payment_details.gift_card_last_four_digits %}  ending with {{ transaction.payment_details.gift_card_last_four_digits }}
+{% elsif transaction.payment_details.type == "shop_pay_installments" and transaction.payment_details.credit_card_company == "unknown" %} 
+Paid with Shop Pay installments
+{% elsif transaction.payment_details.type == "card" %}  ending with {{ transaction.payment_details.credit_card_last_four_digits }}
+{% elsif transaction.gateway_display_name == "Gift card" %}  ending with {{ transaction.payment_details.gift_card.last_four_characters | upcase }}
+   &nbsp;Gift card balance - {{ transaction.payment_details.gift_card.balance | money }} {% elsif transaction.payment_details.local_payment? %}  {{ transaction.payment_details.payment_method_display_name }}
+{% elsif transaction.gateway_display_name != "Shop Cash" and transaction.gateway != "shop_offer" %} {{ transaction.gateway_display_name }}
+{% endif %} {% elsif transaction.kind == "authorization" and transaction.gateway_display_name == "Shop Cash" %} Shop Cash
+{% endif %} {% endif %} {% endfor %} {% endif %}
+
+
+
+Shipping method
+
+{% if delivery_promise_branded_shipping_line %} {{ delivery_promise_branded_shipping_line }} {% else %} {{ shipping_method.title }} {% endif %}
+
+If you have any questions, reply to this email or contact us at {{ shop.email }}
+
+ {%- if billing_address.country_code == 'DE' or billing_address.country_code == 'DK' -%} {%- if shop.terms_of_service.body != blank -%} {{ shop.terms_of_service | attach_as_pdf: "Terms of service" }} {%- endif -%} {%- if shop.refund_policy.body != blank -%} {{ shop.refund_policy | attach_as_pdf: "Refund policy" }} {%- endif -%} {%- endif -%}

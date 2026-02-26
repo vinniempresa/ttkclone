@@ -1,0 +1,82 @@
+<script>
+/* cole isto dentro do seu ShopifyBuyInit, depois que ui.createComponent for chamado */
+
+function addCountryPrefillToCheckout(shopDomain, countryCode, provinceOrState){
+  // espera o componente do cart existir
+  setTimeout(function waitForCart(){
+    try {
+      // o botão "Checkout" dentro do embed costuma ter um href com "/checkout" ou ser um botão dentro do node do cart
+      // vamos capturar cliques no documento e detectar quando vem do botão do Buy Button
+      document.addEventListener('click', function(e){
+        const el = e.target.closest('a,button');
+        if(!el) return;
+
+        // tentar identificar o botão de checkout do Buy Button (texto ou href contendo '/checkout')
+        const href = el.getAttribute && el.getAttribute('href') || '';
+        const txt = (el.innerText || '').toLowerCase();
+
+        if(href.includes('/checkout') || txt.includes('checkout') || txt.includes('finalizar') || txt.includes('comprar')){
+          // impedir o comportamento padrão e montar permalink
+          // pegar itens do cart construído no DOM: buy button adiciona elementos com data-variant-id (varia por versão)
+          e.preventDefault();
+
+          // coletar linhas do carrinho do widget
+          const lines = [];
+          // tentativas de selecionar variantes e quantidades a partir do DOM
+          document.querySelectorAll('[data-variant-id]').forEach(function(node){
+            const vid = node.getAttribute('data-variant-id');
+            const qtyNode = node.closest('.cart__row')?.querySelector('input') || node.closest('li')?.querySelector('input');
+            const qty = qtyNode ? parseInt(qtyNode.value,10) || 1 : 1;
+            if(vid) lines.push({vid: vid, qty: qty});
+          });
+
+          // fallback se não encontrou pela DOM: tente ler do localStorage/cart cookie (nem sempre disponível)
+          if(lines.length === 0){
+            // muitas implementações do buy-button expõem ui.components.cart[0].model.lineItems no objeto global
+            try {
+              if(window.ui && ui.components && ui.components.cart && ui.components.cart[0] && ui.components.cart[0].model) {
+                ui.components.cart[0].model.lineItems.forEach(function(li){
+                  lines.push({vid: li.variantId, qty: li.quantity});
+                });
+              }
+            } catch(err){}
+          }
+
+          if(lines.length === 0){
+            // se não tem itens detectáveis, permitir ação normal
+            window.location = href || window.location.href;
+            return;
+          }
+
+          // transformar variantGid em ID do tipo numérico do cart permalink se necessário.
+          // o cart permalink espera o variant numeric id (não o GID). às vezes a versão do embed já fornece o id numérico.
+          // aqui vamos usar o valor que encontramos: se for GID, pode ser preciso mapear via API.
+          const parts = lines.map(function(L){
+            // se for GID como "gid://shopify/ProductVariant/12345" pega o último número
+            const m = L.vid.match(/\/(\d+)$/);
+            const id = m ? m[1] : L.vid;
+            return id + ':' + L.qty;
+          });
+          const cartPath = parts.join(',');
+
+          // montar parâmetros de checkout (url-encode)
+          const params = [];
+          params.push('checkout[shipping_address][country]=' + encodeURIComponent(countryCode));
+          if(provinceOrState) params.push('checkout[shipping_address][province]=' + encodeURIComponent(provinceOrState));
+          // opcional: preencher email => params.push('checkout[email]=...')
+
+          const url = 'https://' + shopDomain + '/cart/' + cartPath + '?' + params.join('&');
+          window.location = url;
+        }
+      }, {capture: true});
+    } catch(err){
+      // se falhar, tenta novamente (há casos de lazy load)
+      setTimeout(waitForCart, 500);
+    }
+  }, 200);
+}
+
+// uso:
+// substitua pelo seu domínio da loja (ex: 'wfgxax-00.myshopify.com')
+addCountryPrefillToCheckout('wfgxax-00.myshopify.com', 'BR', 'SP');
+</script>

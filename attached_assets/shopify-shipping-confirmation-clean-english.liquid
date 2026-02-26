@@ -1,0 +1,163 @@
+{% if fulfillment.item_count == item_count %} 
+  {% capture email_title %}Your order is on the way{% endcapture %}
+  {% capture email_body %}Your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+{% elsif fulfillment.item_count > 1 %} 
+  {% if fulfillment_status == 'fulfilled' %}
+    {% capture email_title %}The last items in your order are on the way{% endcapture %}
+    {% capture email_body %}The last items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %}
+  {% else %}
+    {% capture email_title %}Some items in your order are on the way{% endcapture %}
+    {% capture email_body %}Some items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %}
+  {% endif %}
+{% else %} 
+  {% if fulfillment_status == 'fulfilled' %}
+    {% capture email_title %}The last item in your order is on the way{% endcapture %}
+    {% capture email_body %}The last item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+  {% else %}
+    {% capture email_title %}An item in your order is on the way{% endcapture %}
+    {% capture email_body %}An item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+  {% endif %}
+{% endif %}
+
+{% capture email_emphasis %}Estimated delivery date: <strong>{{fulfillment.estimated_delivery_at | date: format: 'date'}}</strong>{% endcapture %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>{{ email_title }}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="/assets/notifications/styles.css">
+  <style>
+    .button__cell { background: {{ shop.email_accent_color }}; }
+    a, a:hover, a:active, a:visited { color: {{ shop.email_accent_color }}; }
+  </style>
+</head>
+
+  <body>
+
+    <table class="body">
+      <tr>
+        <td>
+          <table class="header row">
+  <tr>
+    <td class="header__cell">
+      <center>
+
+        <table class="container">
+          <tr>
+            <td>
+
+              <table class="row">
+                <tr>
+                  <td class="shop-name__cell">
+                    {%- if shop.email_logo_url %}
+                      <img src="{{shop.email_logo_url}}" alt="{{ shop.name }}" width="{{ shop.email_logo_width }}">
+                    {%- else %}
+                      <h1 class="shop-name__text">
+                        <a href="{{shop.url}}">{{ shop.name }}</a>
+                      </h1>
+                    {%- endif %}
+                  </td>
+
+                    <td>
+                      <table class="order-po-number__container">
+                        <tr>
+                          <td class="order-number__cell">
+                            <span class="order-number__text">
+                              Order {{ order_name }}
+                            </span>
+                          </td>
+                        </tr>
+                        {%- if po_number %}
+                            <tr>
+                              <td class="po-number__cell">
+                                <span class="po-number__text">
+                                  PO number #{{ po_number }}
+                                </span>
+                              </td>
+                            </tr>
+                        {%- endif %}
+                      </table>
+                    </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </table>
+
+      </center>
+    </td>
+  </tr>
+</table>
+
+          <table class="row content">
+  <tr>
+    <td class="content__cell">
+      <center>
+        <table class="container">
+          <tr>
+            <td>
+              
+            <h2>{{ email_title }}</h2>
+            <p>{{ email_body }}</p>
+            {% if fulfillment.estimated_delivery_at %}
+              <p>{{ email_emphasis }}</p>
+            {% endif %}
+            {% if fulfillment.tracking_numbers.size > 0 %}
+  <p class="disclaimer__subtext">
+    <br/>
+    {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and fulfillment.tracking_url %}
+      {{ fulfillment.tracking_company }} tracking number: <a href="{{ fulfillment.tracking_url }}">{{ fulfillment.tracking_numbers.first }}</a>
+    {% elsif fulfillment.tracking_numbers.size == 1 %}
+      Tracking number: {{ fulfillment.tracking_numbers.first }}
+    {% else %}
+      {{ fulfillment.tracking_company }} tracking numbers:<br />
+      {% for tracking_number in fulfillment.tracking_numbers %}
+        {% if fulfillment.tracking_urls[forloop.index0] %}
+          <a href="{{ fulfillment.tracking_urls[forloop.index0] }}">
+            {{ tracking_number }}
+          </a>
+        {% else %}
+            {{ tracking_number }}
+        {% endif %}
+        <br/>
+      {% endfor %}
+    {% endif %}
+  </p>
+{% endif %}
+
+
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+
+          <table class="row footer">
+  <tr>
+    <td class="footer__cell">
+      <center>
+        <table class="container">
+          <tr>
+            <td>
+              
+              <p class="disclaimer__subtext">If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+            </td>
+          </tr>
+        </table>
+      </center>
+    </td>
+  </tr>
+</table>
+
+<img src="{{ 'notifications/spacer.png' | shopify_asset_url }}" class="spacer" height="1" />
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
