@@ -321,15 +321,15 @@ export default function InformativoPage() {
               ref={(el) => {
                 if (el && !el.querySelector('vturb-smartplayer')) {
                   const player = document.createElement('vturb-smartplayer');
-                  player.id = 'vid-6997bc781619114c97104eec';
+                  player.id = 'vid-69a10f3d4c57d8bd07c2d01e';
                   player.style.display = 'block';
                   player.style.margin = '0 auto';
                   player.style.width = '100%';
                   player.style.maxWidth = '400px';
                   el.appendChild(player);
-                  if (!document.querySelector('script[src*="6997bc781619114c97104eec"]')) {
+                  if (!document.querySelector('script[src*="69a10f3d4c57d8bd07c2d01e"]')) {
                     const s = document.createElement('script');
-                    s.src = 'https://scripts.converteai.net/cddbdca7-e9aa-4343-a8b3-a0b5552cb55b/players/6997bc781619114c97104eec/v4/player.js';
+                    s.src = 'https://scripts.converteai.net/06eb1659-0152-4fdb-88fd-d55a8869abb3/players/69a10f3d4c57d8bd07c2d01e/v4/player.js';
                     s.async = true;
                     document.head.appendChild(s);
                   }
