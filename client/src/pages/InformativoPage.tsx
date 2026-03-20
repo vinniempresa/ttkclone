@@ -4,6 +4,12 @@ import { ChevronDown, Loader2, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import tiktokLogo from '@assets/logo-tiktok-CfBkyC_V_(1)_1771528904425.png';
 
+declare global {
+  interface Window {
+    _plt?: number;
+  }
+}
+
 const TIKTOK_SVG = "https://lf16-scmcdn.oecstatic.com/obj/oec-magellan-sg/atlas/account/page/account_register_latam/assets/1.imbqdzf7.svg";
 const BANNER_BG = "https://sf16-va.tiktokcdn.com/obj/eden-va2/aubvjjh_ylsslz_thahs/ljhwZthlaukjlkulzlp/register/mobile_main_banner_bg.png";
 const TIKTOK_LOGO_ROUND = "https://static.vecteezy.com/system/resources/thumbnails/018/930/574/small/tiktok-logo-tikok-icon-transparent-tikok-app-logo-free-png.png";
@@ -320,16 +326,37 @@ export default function InformativoPage() {
             <div
               ref={(el) => {
                 if (el && !el.querySelector('vturb-smartplayer')) {
+                  if (!window._plt) {
+                    window._plt = performance && performance.timeOrigin
+                      ? performance.timeOrigin + performance.now()
+                      : Date.now();
+                  }
+                  const addLink = (rel: string, href: string, as?: string) => {
+                    if (!document.querySelector(`link[href="${href}"]`)) {
+                      const l = document.createElement('link');
+                      l.rel = rel;
+                      l.href = href;
+                      if (as) l.setAttribute('as', as);
+                      document.head.appendChild(l);
+                    }
+                  };
+                  addLink('preload', 'https://scripts.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/players/69bdd6581a6960afc67f9695/v4/player.js', 'script');
+                  addLink('preload', 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js', 'script');
+                  addLink('preload', 'https://cdn.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/69bdd646b1f8e9f7f4f30fac/main.m3u8', 'fetch');
+                  addLink('dns-prefetch', 'https://cdn.converteai.net');
+                  addLink('dns-prefetch', 'https://scripts.converteai.net');
+                  addLink('dns-prefetch', 'https://images.converteai.net');
+                  addLink('dns-prefetch', 'https://api.vturb.com.br');
                   const player = document.createElement('vturb-smartplayer');
-                  player.id = 'vid-69a10f3d4c57d8bd07c2d01e';
+                  player.id = 'vid-69bdd6581a6960afc67f9695';
                   player.style.display = 'block';
                   player.style.margin = '0 auto';
                   player.style.width = '100%';
                   player.style.maxWidth = '400px';
                   el.appendChild(player);
-                  if (!document.querySelector('script[src*="69a10f3d4c57d8bd07c2d01e"]')) {
+                  if (!document.querySelector('script[src*="69bdd6581a6960afc67f9695"]')) {
                     const s = document.createElement('script');
-                    s.src = 'https://scripts.converteai.net/06eb1659-0152-4fdb-88fd-d55a8869abb3/players/69a10f3d4c57d8bd07c2d01e/v4/player.js';
+                    s.src = 'https://scripts.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/players/69bdd6581a6960afc67f9695/v4/player.js';
                     s.async = true;
                     document.head.appendChild(s);
                   }
