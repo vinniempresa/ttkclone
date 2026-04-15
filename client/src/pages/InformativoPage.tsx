@@ -340,23 +340,22 @@ export default function InformativoPage() {
                       document.head.appendChild(l);
                     }
                   };
-                  addLink('preload', 'https://scripts.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/players/69bdd6581a6960afc67f9695/v4/player.js', 'script');
+                  addLink('preload', 'https://scripts.converteai.net/01ead8d1-1308-4240-b5eb-488c7ff28aa5/players/69dff64eb874c7d9da01b0d3/v4/player.js', 'script');
                   addLink('preload', 'https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js', 'script');
-                  addLink('preload', 'https://cdn.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/69bdd646b1f8e9f7f4f30fac/main.m3u8', 'fetch');
                   addLink('dns-prefetch', 'https://cdn.converteai.net');
                   addLink('dns-prefetch', 'https://scripts.converteai.net');
                   addLink('dns-prefetch', 'https://images.converteai.net');
                   addLink('dns-prefetch', 'https://api.vturb.com.br');
                   const player = document.createElement('vturb-smartplayer');
-                  player.id = 'vid-69bdd6581a6960afc67f9695';
+                  player.id = 'vid-69dff64eb874c7d9da01b0d3';
                   player.style.display = 'block';
                   player.style.margin = '0 auto';
                   player.style.width = '100%';
                   player.style.maxWidth = '400px';
                   el.appendChild(player);
-                  if (!document.querySelector('script[src*="69bdd6581a6960afc67f9695"]')) {
+                  if (!document.querySelector('script[src*="69dff64eb874c7d9da01b0d3"]')) {
                     const s = document.createElement('script');
-                    s.src = 'https://scripts.converteai.net/62c4f562-734d-4ed4-b6cf-0210c247c125/players/69bdd6581a6960afc67f9695/v4/player.js';
+                    s.src = 'https://scripts.converteai.net/01ead8d1-1308-4240-b5eb-488c7ff28aa5/players/69dff64eb874c7d9da01b0d3/v4/player.js';
                     s.async = true;
                     document.head.appendChild(s);
                   }
