@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { createPixTransaction, getTransactionStatus } from "./ghostspay";
+import { createPixTransaction, getTransactionStatus } from "./buckpay";
 
 const geoCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;

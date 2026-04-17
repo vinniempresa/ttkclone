@@ -104,7 +104,7 @@ export default function PaymentPage() {
     try {
       const res = await fetch(`/api/pix/status/${paymentData.transactionId}`);
       const data = await res.json();
-      if (data.status === 'paid' && data.paidAt) {
+      if (data.status === 'paid') {
         setPaid(true);
       }
     } catch {}
@@ -148,7 +148,7 @@ export default function PaymentPage() {
     try {
       const res = await fetch(`/api/pix/status/${tarifaData.transactionId}`);
       const data = await res.json();
-      if (data.status === 'paid' && data.paidAt) {
+      if (data.status === 'paid') {
         setTarifaPaid(true);
         setTarifaModalOpen(false);
         localStorage.removeItem('tiktok_payment');
