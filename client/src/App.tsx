@@ -13,6 +13,7 @@ import ProductPage from "@/pages/ProductPage";
 import CheckoutPage from "@/pages/CheckoutPage";
 import InformativoPage from "@/pages/InformativoPage";
 import PaymentPage from "@/pages/PaymentPage";
+import PresselPage from "@/pages/PresselPage";
 import NotFound from "@/pages/not-found";
 
 let isPopState = false;
@@ -42,6 +43,7 @@ function Router() {
         <Route path="/checkout" component={CheckoutPage} />
         <Route path="/informativo" component={InformativoPage} />
         <Route path="/pagamento" component={PaymentPage} />
+        <Route path="/pressel" component={PresselPage} />
         <Route component={NotFound} />
       </Switch>
     </>
